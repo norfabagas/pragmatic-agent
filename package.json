@@ -1,0 +1,34 @@
+{
+  "name": "pragmatic-agent",
+  "version": "0.2.0",
+  "description": "Coding skills for your AI agent.",
+  "type": "module",
+  "bin": {
+    "pragmatic-agent": "./bin/pragmatic-agent.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/validate-skills.mjs",
+    "prepack": "npm run validate && npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "agent-skills",
+    "coding-agent",
+    "pragmatic-programming",
+    "code-review"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norfabagas/pragmatic-agent.git"
+  },
+  "license": "MIT"
+}

@@ -1,27 +1,36 @@
 ---
 name: pragmatic-review
-description: Review code changes for correctness, security, maintainability, compatibility, and unjustified complexity, with evidence-based findings.
+description: Plan or review code; identify relevant quality risks and prioritized tuning opportunities with minimal analysis overhead.
 ---
 
 # pragmatic-review
 
-Use when reviewing a diff, pull request, or implementation.
+Plan changes or review existing code without editing files.
 
-## Canonical rules
+## First step: ask for scope
 
-When available, consult `principles/core-rules.md`, especially PA-06–PA-10 and PA-16–PA-20.
+Before reading code or running analysis, ask the user:
+
+> Choose scope for pragmatic-review:
+> 1. **Current changes** — review only the files and behavior involved in the task.
+> 2. **Whole codebase** — review the repository and identify the most important hotspots.
+>
+> Which scope: 1 or 2?
+
+Wait for the answer. Do not silently default to either option. If the user already specified the scope, confirm it briefly instead of asking again. Whole-codebase review uses staged inspection and existing tooling; avoid dumping every file into context.
 
 ## Workflow
 
-1. Identify intended behavior and inspect the diff plus necessary surrounding code.
-2. Prioritize demonstrable correctness, security, data integrity, and compatibility problems.
-3. Check whether the change introduces avoidable complexity or hidden side effects.
-4. Ground each finding in a specific file, location, and concrete impact.
-5. Distinguish defects from preferences and explain trade-offs if a pattern is contextually questionable.
-6. Note verification gaps without suggesting that unrun tests failed.
+1. Use the selected scope to identify relevant files and execution paths. Read nearby tests and contracts only as needed.
+2. Assess five core indicators: **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface**. Prefer existing analyzer results. Use qualitative evidence when numbers are unavailable; never invent scores.
+3. Prioritize correctness, security, error handling, and compatibility before maintainability or performance concerns.
+4. Trace concrete hotspots: nested control flow, hidden state, circular dependencies, scattered business rules, or repeated expensive operations. High metric values alone are not defects.
+5. Suggest only changes supported by evidence. For planning, give a small implementation sequence and verification criteria; for review, give findings ordered by risk.
 
 ## Output
 
-Report findings in descending severity, including the affected location, impact, and practical fix. If no actionable findings are supported, say so plainly and mention relevant verification limitations.
+Give a concise **Metric | Current | Evidence** summary for relevant indicators, followed by at most **three** highest-value tuning suggestions with location, proposed change, expected benefit, and risk. If nothing warrants tuning, say so. State which checks actually ran.
 
-Avoid praise, cosmetic nitpicks, and generic advice without evidence.
+## Optional checks and token budget
+
+Consider coverage and static-analysis findings when available. Mutation testing, performance benchmarks, profiling, and cohesion analysis are opt-in based on the task. Avoid unnecessary repository-wide scans, new dependencies, repeated file reads, long metric tables, and arbitrary overall quality scores unless explicitly requested. For whole-codebase scope, prefer tool summaries and targeted hotspot inspection.

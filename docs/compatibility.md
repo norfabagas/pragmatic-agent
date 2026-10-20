@@ -1,24 +1,17 @@
-# Agent compatibility
+# Agent installation
 
-Pragmatic Agent v0.1 targets three coding-agent environments:
+After publication to npm, run `npx pragmatic-agent` in the target project. Select an agent or pass `--agent claude|codex|antigravity`.
 
-| Environment | Status | Current approach |
+The installer copies `pragmatic-code` and `pragmatic-review` into the selected skills directory.
+
+| Agent | Project | Global |
 | --- | --- | --- |
-| Claude Code | Not verified | Use the skill text through documented project/session instructions or skills support |
-| OpenAI Codex | Not verified | Use the skill text through documented project/session instructions or skills support |
-| Google Antigravity | Not verified | Use the skill text through documented project/session instructions or skills support |
+| Claude Code | `.claude/skills` | `~/.claude/skills` |
+| Codex | `.agents/skills` | `~/.agents/skills` |
+| Antigravity app | `.agents/skills` | `~/.gemini/config/skills` |
 
-These are integration targets, not confirmed support claims. Installation paths and skill discovery behavior may change between agent versions.
+Use `--dir PATH` for another project or `--scope global` for a user-level installation. Existing modified skills are preserved unless `--force` is passed.
 
-## Validation needed
+Older installs may contain `pragmatic-core` and `pragmatic-spaghetti`. Inspect those directories before removing them manually; the installer leaves them alone.
 
-For each environment:
-
-1. Confirm how that version loads skills or project instructions.
-2. Install or explicitly provide `pragmatic-core`.
-3. Start a fresh session and request a small change in a test repository.
-4. Check whether the agent actually read and applied the skill.
-5. Verify that output remains correct and does not add unnecessary architecture.
-6. Record the agent version, steps, and outcome.
-
-This project does not route inference requests to Claude, OpenAI, or Gemini models. It ships instructions intended to work through their respective agent hosts.
+The installer has no integration with model APIs. Automatic discovery and skill execution have not been tested end to end in each agent.

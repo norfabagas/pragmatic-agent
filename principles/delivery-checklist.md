@@ -1,11 +1,11 @@
-# Delivery checklist
+# Before finishing
 
-- [ ] The implementation addresses the requested behavior.
-- [ ] Changes are scoped to relevant files and follow project conventions.
-- [ ] Existing contracts and compatibility were considered.
-- [ ] Error cases, inputs, and security boundaries were considered where applicable.
-- [ ] Appropriate tests or checks were performed when available.
-- [ ] No unrun tests or checks are presented as having passed.
-- [ ] The final response accurately states changes, verification, and outstanding limitations.
+- [ ] The requested behavior or review scope is addressed.
+- [ ] Relevant correctness, security, error handling, and compatibility risks were considered.
+- [ ] Available quality indicators were checked in the affected scope without unnecessary scans or new tooling.
+- [ ] pragmatic-code reports comparable before/after results or explains missing baselines.
+- [ ] pragmatic-review offers only evidence-based tuning suggestions, prioritized by impact.
+- [ ] Tests actually run are distinguished from unverified assumptions.
+- [ ] Output stays concise; missing numeric metrics are not fabricated.
 
-Use this as a prompt for judgment, not a claim that every item was mechanically verified.
+This checklist is not proof of verification.

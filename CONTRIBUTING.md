@@ -1,22 +1,22 @@
 # Contributing
 
-Contributions should make agent behavior measurably more useful without adding unnecessary complexity.
+Changes should address a specific implementation or review failure. Include an example that shows why the current guidance is insufficient.
 
-## Proposing changes
+## Branches
 
-1. Open an issue describing the concrete failure mode, intended improvement, and an example task.
-2. Keep changes focused. Prefer extending a relevant existing skill over inventing another one.
-3. Update the canonical principle once; other skills should reference its PA-ID.
-4. Add or update an evaluation scenario when changing behavior.
-5. Run `node scripts/validate-skills.mjs` and explain any manual checks in your PR.
+Commit changes to `dev`. The maintainer opens and merges release pull requests from `dev` into `main`. Do not push directly to `main`.
 
-## Style
+## Proposing a change
 
-- Write concise, testable instructions rather than aspirational slogans.
-- Use examples for genuinely ambiguous principles.
-- Avoid mandatory architecture, library, framework, or language choices.
-- Do not claim a provider is supported without verifying its actual discovery and activation behavior.
+1. Describe the problematic agent behavior and the desired result.
+2. Update the relevant skill or canonical rule without adding duplicate instructions.
+3. Add a test if the change affects the installer or validation script.
+4. Run `npm test` and `npm run validate`. Report any checks you could not run.
 
-## Releases
+Prefer specific language and testable claims. Do not require an architecture, pattern, or dependency without an actual need.
 
-Semantic versions will track changes to guidance and agent integrations. CLI distribution and cross-agent compatibility remain planned work.
+## Release checks
+
+Before publishing the npm package, run `npm pack --dry-run` and verify the tarball contents. Agent discovery and activation must be checked in the target application; file installation alone does not establish that the skill is active.
+
+The GitHub Actions validation workflow is currently manual because earlier runs failed. Do not describe CI as passing unless a successful run is available.

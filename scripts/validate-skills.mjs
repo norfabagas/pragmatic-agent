@@ -1,22 +1,21 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = resolve(new URL('..', import.meta.url).pathname);
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const skillsDir = join(root, 'skills');
-const ruleFile = readFileSync(join(root, 'principles', 'core-rules.md'), 'utf8');
-const ids = [...ruleFile.matchAll(/\| (PA-\d{2}) \|/g)].map((m) => m[1]);
+const rules = readFileSync(join(root, 'principles/core-rules.md'), 'utf8');
+const ids = [...rules.matchAll(/^\| (PA-\d{2}) \|/gm)].map(m => m[1]);
 const errors = [];
-
-if (ids.length !== 20 || new Set(ids).size !== 20) errors.push('Expected 20 unique PA rule IDs.');
-
-for (const dir of readdirSync(skillsDir, { withFileTypes: true }).filter((d) => d.isDirectory())) {
-  const file = join(skillsDir, dir.name, 'SKILL.md');
-  if (!existsSync(file)) { errors.push(`Missing ${dir.name}/SKILL.md`); continue; }
-  const content = readFileSync(file, 'utf8');
-  const frontmatter = content.match(/^---\n([\s\S]*?)\n---\n/);
-  if (!frontmatter) { errors.push(`Missing frontmatter in ${dir.name}`); continue; }
-  if (!frontmatter[1].split('\n').some((l) => l === `name: ${dir.name}`)) errors.push(`Skill name mismatch: ${dir.name}`);
-  if (!frontmatter[1].split('\n').some((l) => l.startsWith('description: '))) errors.push(`Missing description: ${dir.name}`);
+if (ids.length !== 20 || new Set(ids).size !== 20) errors.push('Expected 20 unique PA rules.');
+const dirs = readdirSync(skillsDir, { withFileTypes: true }).filter(d => d.isDirectory());
+for (const dir of dirs) {
+  const path = join(skillsDir, dir.name, 'SKILL.md');
+  if (!existsSync(path)) { errors.push('Missing ' + path); continue; }
+  const body = readFileSync(path, 'utf8');
+  const fm = body.match(/^---\n([\s\S]*?)\n---\n/);
+  if (!fm || !fm[1].split('\n').includes('name: ' + dir.name) || !fm[1].split('\n').some(line => line.startsWith('description: '))) errors.push('Invalid skill metadata: ' + dir.name);
 }
-if (errors.length) { for (const error of errors) console.error(error); process.exitCode = 1; }
-else console.log(`Validated ${readdirSync(skillsDir).length} skills and ${ids.length} canonical rules.`);
+if (dirs.length !== 2 || !['pragmatic-code', 'pragmatic-review'].every(name => dirs.some(dir => dir.name === name))) errors.push('Expected pragmatic-code and pragmatic-review only.');
+if (errors.length) { errors.forEach(e => console.error(e)); process.exitCode = 1; }
+else console.log('Validated ' + dirs.length + ' skills and ' + ids.length + ' rules.');
