@@ -1,6 +1,8 @@
 # Installation and compatibility
 
-The installer copies the same two `SKILL.md` bundles into the documented project or personal skill locations. It does not install an agent, configure a model, or guarantee automatic activation.
+Run `npx pragmatic-agent` from the target project after the npm package has been published. Choose the agent interactively, or pass `--agent claude|codex|antigravity` to avoid a prompt.
+
+The package installs exactly two skills: `pragmatic-code` for execution and `pragmatic-review` for planning and review.
 
 | Host | Project directory | Personal directory |
 | --- | --- | --- |
@@ -8,18 +10,6 @@ The installer copies the same two `SKILL.md` bundles into the documented project
 | Codex | `.agents/skills` | `~/.agents/skills` |
 | Antigravity app | `.agents/skills` | `~/.gemini/config/skills` |
 
-Antigravity CLI personal skills live under `~/.gemini/antigravity-cli/skills`, which this installer does not currently target. Antigravity also accepts legacy `.agent/skills`, but new installations use `.agents/skills`.
+Use `--scope global` for personal installation or `--dir PATH` for a different project. Existing modified skills are not overwritten without `--force`. Previous installs may contain obsolete `pragmatic-core` or `pragmatic-spaghetti` directories; inspect them before removing them manually.
 
-## Usage
-
-Run `node bin/pragmatic-agent.mjs install --agent <host>` from this checkout while inside the target project, or provide `--dir`. For global installation add `--scope global`. Run `doctor` with the same options to check the files.
-
-On first use, start a new agent session and request `pragmatic-code` for a feature change or `pragmatic-review` for a code-flow review. The agent may discover skills based on their descriptions without explicit invocation.
-
-Previous installations may retain obsolete `pragmatic-core` and `pragmatic-spaghetti` directories. The installer does not delete those directories automatically, to avoid removing user edits. Review and remove them manually if no longer needed.
-
-## Limits
-
-File installation and local script tests can be verified without access to running agent hosts. End-to-end activation and compliance on Claude Code, Codex, and Antigravity must still be tested in each installed application. This repository does not route model API calls.
-
-Documentation: [Claude Code skills](https://code.claude.com/docs/en/skills), [Codex](https://developers.openai.com/blog/skills-agents-sdk), [Antigravity skills](https://www.antigravity.google/docs/skills).
+Installation only copies instruction files. The agent must support loading them. End-to-end activation and compliance still require tests in each host.

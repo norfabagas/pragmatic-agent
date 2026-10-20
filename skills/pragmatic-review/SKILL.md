@@ -1,22 +1,29 @@
 ---
 name: pragmatic-review
-description: Review code and pull requests for correctness, robustness, human readability, efficiency, maintainability, spaghetti code, and unjustified complexity.
+description: Plan implementation or review code for correctness, robustness, readability, efficiency, maintainability, spaghetti code, and unjustified complexity.
 ---
 
-# Pragmatic review
+# Pragmatic planning and review
 
-Review the requested behavior, relevant code, and diff without making edits unless asked.
+Use for planning before implementation or reviewing existing code. Do not edit code unless explicitly asked to implement; use pragmatic-code for execution.
 
-## Examine
+## Planning
 
-1. Correctness, failure handling, security, data integrity, and compatibility.
-2. Human comprehension: explicit state changes, meaningful names, cohesive responsibilities, and traceable execution paths.
-3. Spaghetti code: deeply tangled branches, hidden shared state, cyclic dependencies, scattered domain rules, mixed concerns, and unnecessary change ripple. Trace a concrete path and explain the consequence; line count alone is not evidence.
-4. Efficiency: repeated I/O, avoidable computation, resource misuse, or hot-path overhead. Separate measured problems from hypotheses.
-5. Maintainability: coupling, testability, speculative abstractions, unnecessary dependencies, and scope creep.
+1. Understand the requested behavior, constraints, relevant code paths, and existing conventions.
+2. Identify important edge cases, security boundaries, compatibility risks, and verification needs.
+3. Propose the smallest implementation that meets the requirements. Specify affected components and meaningful trade-offs.
+4. Flag tangled control flow, hidden mutable state, circular dependencies, mixed responsibilities, and scattered business rules when they affect the proposed change.
+5. Keep the plan proportional to the task; avoid speculative frameworks and unnecessary decomposition.
 
-## Findings
+## Reviewing
 
-List actionable findings in severity order. For each include the location, evidence, concrete risk, and smallest proportionate remedy. Distinguish defects from style preferences and justified domain complexity. Do not recommend broad rewrites without a demonstrated need.
+1. Compare intended behavior with the implementation, tests, and relevant surrounding code.
+2. Prioritize correctness, failure handling, data integrity, security, and compatibility.
+3. Assess whether a human can follow state changes, error paths, and dependencies.
+4. Investigate spaghetti-code symptoms through a concrete execution path; length alone is not evidence.
+5. Identify measurable or plausible efficiency problems, clearly separating evidence from hypotheses.
+6. Evaluate coupling, cohesion, testability, and unnecessary abstraction.
 
-If no actionable findings are supported, say so. Report checks actually performed and important verification gaps. Do not claim unrun tests passed.
+## Output
+
+For plans, give actionable steps, assumptions, risks, and verification criteria. For reviews, list findings by severity with location, evidence, consequence, and proportionate remedy. If no actionable findings are supported, say so. Never invent verification results.

@@ -2,66 +2,55 @@
 
 Coding skills for your AI agent.
 
-Pragmatic Agent guides coding agents toward code that people can understand and change. It favors straightforward control flow, deliberate error handling, proportionate abstractions, and verified behavior. It also flags spaghetti code: hidden state, tangled branching, mixed responsibilities, and dependencies that make small changes expensive.
-
-It is guidance for an AI agent, not a linter or a guarantee of code quality.
+Two skills: **pragmatic-code** for execution, and **pragmatic-review** for planning and code review. Both favor code that is understandable to humans, efficient, robust, and maintainable. They check for unnecessary abstractions, hidden state, and tangled control flow.
 
 ## Install
 
-Requires Node.js 18+. Clone this repository, then run the installer from its root. Replace `/path/to/your-project` with the project that should receive the skills:
+Run this in the project where you want the skills:
 
 ```sh
-node bin/pragmatic-agent.mjs install --agent claude --dir /path/to/your-project
-node bin/pragmatic-agent.mjs install --agent codex --dir /path/to/your-project
-node bin/pragmatic-agent.mjs install --agent antigravity --dir /path/to/your-project
+npx pragmatic-agent
 ```
 
-Each command installs the same two skills into the **specified project's** agent skills directory. Without `--dir`, the installer uses the current working directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
+Select the agent when prompted. The installer adds both skills to that project's skill directory. Restart your agent session to load them.
 
-To install for all projects, add `--scope global`. Use `--dir /path/to/project` to select a different project. Installation refuses to overwrite changed skills; `--force` explicitly replaces them.
-
-| Agent | Project | Global |
-| --- | --- | --- |
-| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
-| Codex | `.agents/skills/` | `~/.agents/skills/` |
-| Antigravity (app) | `.agents/skills/` | `~/.gemini/config/skills/` |
-
-The Antigravity CLI has a different global skills directory; this installer currently targets the Antigravity **app**. See [compatibility](docs/compatibility.md).
-
-## Check or remove
+For scripts or non-interactive environments, specify the agent:
 
 ```sh
-node bin/pragmatic-agent.mjs doctor --agent codex
-node bin/pragmatic-agent.mjs uninstall --agent codex
+npx pragmatic-agent --agent claude
+npx pragmatic-agent --agent codex
+npx pragmatic-agent --agent antigravity
 ```
 
-Uninstall removes only the two current skills if they match the bundled version. It refuses to delete edited files. Older installations may still contain `pragmatic-core` or `pragmatic-spaghetti`; remove those directories manually after checking for local changes.
+The same two skills are installed in each case. Use `--dir /path/to/project` to target another project or `--scope global` for personal installation. Existing modified skills are preserved unless you explicitly pass `--force`.
+
+| Agent | Project directory |
+| --- | --- |
+| Claude Code | `.claude/skills` |
+| Codex | `.agents/skills` |
+| Antigravity | `.agents/skills` |
+
+The CLI installs skills; it does not run an AI model or execute code on its own.
 
 ## Skills
 
-| Skill | What it does |
+| Skill | Use |
 | --- | --- |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Executes changes with pragmatic design, readable flow, error handling, and spaghetti-code prevention |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviews correctness, efficiency, spaghetti code, and maintainability |
+| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Implement, debug, and refactor with pragmatic engineering judgment |
+| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Plan changes or review code for correctness, efficiency, maintainability, and spaghetti code |
 
-Restart the agent session after installation if the skills are not discovered. You can request a skill explicitly, for example: `Use pragmatic-review to review the order processing flow.`
-
-## Engineering standard
-
-- **Readable:** make intent, state changes, and failure paths understandable to a human.
-- **Efficient:** avoid wasted work; substantiate performance claims.
-- **Robust:** account for failure modes, security boundaries, and compatibility.
-- **Maintainable:** prefer cohesive modules and focused changes over unnecessary indirection.
-
-The [core rules](principles/core-rules.md) describe the underlying principles. They are not an excuse for broad refactoring or dogmatic application of SOLID or DRY.
+Ask your agent to use `pragmatic-code` when implementing a change, or `pragmatic-review` when planning or reviewing one.
 
 ## Development
 
 ```sh
 npm test
 npm run validate
+npm pack --dry-run
 ```
 
-All development goes to `dev`. The maintainer manually opens and merges a PR to `main` for releases. GitHub Actions validation remains manual until the pipeline issue is resolved.
+The package is prepared for npm publishing; `npx pragmatic-agent` requires the package to be published under that name. Until then, run `node bin/pragmatic-agent.mjs` from a checkout.
 
-MIT. [Contributing](CONTRIBUTING.md) · [Compatibility](docs/compatibility.md)
+Development changes go to `dev`; releases are merged manually into `main`. See [compatibility](docs/compatibility.md) and [contributing](CONTRIBUTING.md).
+
+MIT. [License](LICENSE)
