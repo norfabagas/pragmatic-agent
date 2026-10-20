@@ -1,28 +1,14 @@
-# Engineering philosophy
+# Engineering principles
 
-**Engineering judgment over rigid rules.**
+The goal is code that a maintainer can understand, run reliably, and change without unnecessary work.
 
-Pragmatic Agent exists to help coding agents choose suitable engineering approaches for real constraints.
+1. Read existing code and constraints before choosing an approach.
+2. Prefer the least complex solution that meets current requirements.
+3. Make data flow, state changes, and error paths understandable.
+4. Keep responsibilities cohesive and dependencies intentional.
+5. Preserve security and compatibility requirements.
+6. Verify behavior before making claims about correctness or performance.
 
-1. **Context before convention.** Read relevant code, constraints, and requirements first.
-2. **Simplicity over abstraction.** Prefer the least complex implementation that satisfies requirements and safeguards.
-3. **Maintainability over cleverness.** Favor explicit, understandable behavior over novelty.
-4. **Evidence over assumption.** Make verifiable claims; avoid invented tests, API behavior, or performance benefits.
-5. **Incremental over speculative.** Keep the change focused and avoid future-proofing without evidence.
-6. **Trade-offs over dogma.** Principles support judgment; they do not replace it.
+DRY concerns duplicated knowledge, not merely similar lines. SOLID does not require an interface for every class. Small functions are not inherently clearer. KISS does not justify missing error handling. YAGNI does not eliminate safeguards needed now.
 
-## Examples
-
-- DRY concerns shared knowledge, not every matching line of code.
-- SOLID does not require an interface per class or layer.
-- Clean Code does not mandate tiny functions or maximal decomposition.
-- KISS is not an excuse to ignore error handling, compatibility, or security.
-- YAGNI does not prohibit safeguards required today.
-
-## Rule precedence
-
-1. Safety, security, explicit requirements, and behavioral correctness.
-2. Repository conventions and documented compatibility contracts.
-3. Contextual design principles and maintainability preferences.
-
-If principles conflict, choose the trade-off that best supports the real requirements and explain only material consequences.
+When rules conflict, explicit requirements, safety, and existing contracts take precedence over style.

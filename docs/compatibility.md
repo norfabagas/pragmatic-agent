@@ -1,15 +1,17 @@
-# Installation and compatibility
+# Agent installation
 
-Run `npx pragmatic-agent` from the target project after the npm package has been published. Choose the agent interactively, or pass `--agent claude|codex|antigravity` to avoid a prompt.
+After publication to npm, run `npx pragmatic-agent` in the target project. Select an agent or pass `--agent claude|codex|antigravity`.
 
-The package installs exactly two skills: `pragmatic-code` for execution and `pragmatic-review` for planning and review.
+The installer copies `pragmatic-code` and `pragmatic-review` into the selected skills directory.
 
-| Host | Project directory | Personal directory |
+| Agent | Project | Global |
 | --- | --- | --- |
 | Claude Code | `.claude/skills` | `~/.claude/skills` |
 | Codex | `.agents/skills` | `~/.agents/skills` |
 | Antigravity app | `.agents/skills` | `~/.gemini/config/skills` |
 
-Use `--scope global` for personal installation or `--dir PATH` for a different project. Existing modified skills are not overwritten without `--force`. Previous installs may contain obsolete `pragmatic-core` or `pragmatic-spaghetti` directories; inspect them before removing them manually.
+Use `--dir PATH` for another project or `--scope global` for a user-level installation. Existing modified skills are preserved unless `--force` is passed.
 
-Installation only copies instruction files. The agent must support loading them. End-to-end activation and compliance still require tests in each host.
+Older installs may contain `pragmatic-core` and `pragmatic-spaghetti`. Inspect those directories before removing them manually; the installer leaves them alone.
+
+The installer has no integration with model APIs. Automatic discovery and skill execution have not been tested end to end in each agent.

@@ -1,6 +1,6 @@
 name: Validate Agent Skills
 
-# Manual trigger until historical workflow failures are investigated.
+# Keep manual until the failing workflow runs are diagnosed.
 on:
   workflow_dispatch:
 

@@ -1,28 +1,22 @@
 # Contributing
 
-Contributions should make agent behavior measurably more useful without adding unnecessary complexity.
+Changes should address a specific implementation or review failure. Include an example that shows why the current guidance is insufficient.
 
-## Branch workflow
+## Branches
 
-All development changes go to `dev`. The `main` branch is reserved for releases; the maintainer opens and merges pull requests from `dev` to `main` manually. Do not push development commits directly to `main`.
+Commit changes to `dev`. The maintainer opens and merges release pull requests from `dev` into `main`. Do not push directly to `main`.
 
-GitHub Actions validation is temporarily manual (`Actions → Validate Agent Skills → Run workflow`) while the failed runs are investigated. Run `node scripts/validate-skills.mjs` locally before proposing changes.
+## Proposing a change
 
-## Proposing changes
+1. Describe the problematic agent behavior and the desired result.
+2. Update the relevant skill or canonical rule without adding duplicate instructions.
+3. Add a test if the change affects the installer or validation script.
+4. Run `npm test` and `npm run validate`. Report any checks you could not run.
 
-1. Open an issue describing the concrete failure mode, intended improvement, and an example task.
-2. Keep changes focused. Prefer extending a relevant existing skill over inventing another one.
-3. Update the canonical principle once; other skills should reference its PA-ID.
-4. Add or update an evaluation scenario when changing behavior.
-5. Run `node scripts/validate-skills.mjs` and explain any manual checks in your PR.
+Prefer specific language and testable claims. Do not require an architecture, pattern, or dependency without an actual need.
 
-## Style
+## Release checks
 
-- Write concise, testable instructions rather than aspirational slogans.
-- Use examples for genuinely ambiguous principles.
-- Avoid mandatory architecture, library, framework, or language choices.
-- Do not claim a provider is supported without verifying its actual discovery and activation behavior.
+Before publishing the npm package, run `npm pack --dry-run` and verify the tarball contents. Agent discovery and activation must be checked in the target application; file installation alone does not establish that the skill is active.
 
-## Releases
-
-Semantic versions will track changes to guidance and agent integrations. CLI distribution and cross-agent compatibility remain planned work.
+The GitHub Actions validation workflow is currently manual because earlier runs failed. Do not describe CI as passing unless a successful run is available.

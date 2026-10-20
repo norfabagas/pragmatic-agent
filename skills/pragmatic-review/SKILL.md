@@ -1,29 +1,29 @@
 ---
 name: pragmatic-review
-description: Plan implementation or review code for correctness, robustness, readability, efficiency, maintainability, spaghetti code, and unjustified complexity.
+description: Plan a code change or review existing code for correctness, security, readability, reliability, and maintainability.
 ---
 
-# Pragmatic planning and review
+# pragmatic-review
 
-Use for planning before implementation or reviewing existing code. Do not edit code unless explicitly asked to implement; use pragmatic-code for execution.
+Use before implementation to plan work, or after implementation to review code. Do not edit files unless asked to execute the change.
 
 ## Planning
 
-1. Understand the requested behavior, constraints, relevant code paths, and existing conventions.
-2. Identify important edge cases, security boundaries, compatibility risks, and verification needs.
-3. Propose the smallest implementation that meets the requirements. Specify affected components and meaningful trade-offs.
-4. Flag tangled control flow, hidden mutable state, circular dependencies, mixed responsibilities, and scattered business rules when they affect the proposed change.
-5. Keep the plan proportional to the task; avoid speculative frameworks and unnecessary decomposition.
+1. Read the request, relevant code, tests, and project conventions.
+2. Identify behavior changes, error cases, compatibility constraints, and security boundaries.
+3. Propose the smallest workable sequence of changes. Name affected components and checks that would establish correctness.
+4. Note trade-offs only when they affect the decision. Avoid speculative architecture and checklists unrelated to the task.
 
 ## Reviewing
 
-1. Compare intended behavior with the implementation, tests, and relevant surrounding code.
-2. Prioritize correctness, failure handling, data integrity, security, and compatibility.
-3. Assess whether a human can follow state changes, error paths, and dependencies.
-4. Investigate spaghetti-code symptoms through a concrete execution path; length alone is not evidence.
-5. Identify measurable or plausible efficiency problems, clearly separating evidence from hypotheses.
-6. Evaluate coupling, cohesion, testability, and unnecessary abstraction.
+1. Compare the change with intended behavior and nearby code.
+2. Prioritize correctness, data integrity, security, failure handling, and compatibility.
+3. Trace any difficult control flow. Look for hidden state changes, cyclic dependencies, mixed responsibilities, and scattered business rules. Explain how they create a concrete risk; length alone is not a defect.
+4. Check for avoidable I/O or computation. Distinguish measured problems from suspected ones.
+5. Check whether a maintainer can follow the code and make a localized change without navigating unnecessary indirection.
 
-## Output
+## Response
 
-For plans, give actionable steps, assumptions, risks, and verification criteria. For reviews, list findings by severity with location, evidence, consequence, and proportionate remedy. If no actionable findings are supported, say so. Never invent verification results.
+For a plan, give actionable steps and verification criteria. For a review, report findings by severity with file, location, consequence, and focused remedy. If no actionable finding is supported, say so.
+
+State which checks actually ran and which did not. Do not claim tests passed without evidence.

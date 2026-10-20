@@ -6,24 +6,40 @@ import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const cli = resolve('bin/pragmatic-agent.mjs');
-const agents = { claude: '.claude/skills', codex: '.agents/skills', antigravity: '.agents/skills' };
-const names = ['pragmatic-code', 'pragmatic-review'];
-function run(...args) { return spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' }); }
-for (const [agent, dir] of Object.entries(agents)) {
-  test(agent + ' installs only the two skills and protects modifications', () => {
-    const root = mkdtempSync(join(tmpdir(), 'pragmatic-agent-'));
+const locations = {
+  claude: '.claude/skills',
+  codex: '.agents/skills',
+  antigravity: '.agents/skills',
+};
+const skills = ['pragmatic-code', 'pragmatic-review'];
+
+function run(...args) {
+  return spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
+}
+
+for (const [agent, directory] of Object.entries(locations)) {
+  test(agent + ': install and preserve modified files', () => {
+    const project = mkdtempSync(join(tmpdir(), 'pragmatic-agent-'));
     try {
-      const opts = ['--agent', agent, '--dir', root];
-      assert.equal(run(...opts).status, 0);
-      for (const name of names) assert.ok(existsSync(join(root, dir, name, 'SKILL.md')));
-      assert.equal(run(...opts).status, 0);
-      const path = join(root, dir, 'pragmatic-code', 'SKILL.md');
-      writeFileSync(path, readFileSync(path, 'utf8') + '\nlocal edit\n');
-      assert.equal(run(...opts).status, 1);
-      assert.equal(run(...opts, '--force').status, 0);
-    } finally { rmSync(root, { recursive: true, force: true }); }
+      const args = ['--agent', agent, '--dir', project];
+      assert.equal(run(...args).status, 0);
+      for (const name of skills) {
+        assert.ok(existsSync(join(project, directory, name, 'SKILL.md')));
+      }
+      assert.equal(run(...args).status, 0);
+
+      const file = join(project, directory, 'pragmatic-code', 'SKILL.md');
+      writeFileSync(file, readFileSync(file, 'utf8') + '\nlocal change\n');
+      assert.equal(run(...args).status, 1);
+      assert.equal(run(...args, '--force').status, 0);
+    } finally {
+      rmSync(project, { recursive: true, force: true });
+    }
   });
 }
-test('help works', () => assert.equal(run('--help').status, 0));
-test('non-interactive install requires --agent', () => assert.equal(run().status, 1));
-test('invalid host is rejected', () => assert.equal(run('--agent', 'unknown').status, 1));
+
+test('prints usage', () => assert.equal(run('--help').status, 0));
+test('requires an agent without a terminal', () => assert.equal(run().status, 1));
+test('rejects an unknown agent', () => assert.equal(run('--agent', 'unknown').status, 1));
+test('rejects unexpected arguments', () => assert.equal(run('install', '--agent', 'codex').status, 1));
+test('rejects missing option values', () => assert.equal(run('--agent').status, 1));
