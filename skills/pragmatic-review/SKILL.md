@@ -1,29 +1,38 @@
 ---
 name: pragmatic-review
-description: Plan a code change or review existing code for correctness, security, readability, reliability, and maintainability.
+description: Plan changes or review code; assess code complexity and recommend evidence-based tuning without modifying code.
 ---
 
 # pragmatic-review
 
-Use before implementation to plan work, or after implementation to review code. Do not edit files unless asked to execute the change.
+Use for implementation planning or code review. Inspect the relevant code and provide a complexity assessment with specific tuning opportunities. Do not edit files unless explicitly asked to execute; use pragmatic-code for implementation.
+
+## Inspect
+
+1. Define the review scope and trace the relevant execution paths. Read tests, contracts, and project conventions.
+2. Measure current complexity using an existing project analyzer where available. Prefer cyclomatic complexity per function, cognitive complexity, and duplication or dependency indicators when supported.
+3. Name the tool, scope, and actual values. If measurement is unavailable, give a **qualitative** assessment of branching, nesting, hidden state, coupling, and responsibility boundaries. Never invent numeric scores.
+4. Examine correctness, failure handling, security, compatibility, readability, and avoidable work. Treat high complexity as a signal to investigate, not proof of a defect.
+5. Identify concrete tuning opportunities, including simplifying control flow, localizing state, reducing unnecessary coupling, removing repeated I/O, or separating unrelated responsibilities.
+6. Estimate impact and implementation risk as judgments, not measurements. Avoid speculative rewrites and recommend leaving justified complexity alone.
 
 ## Planning
 
-1. Read the request, relevant code, tests, and project conventions.
-2. Identify behavior changes, error cases, compatibility constraints, and security boundaries.
-3. Propose the smallest workable sequence of changes. Name affected components and checks that would establish correctness.
-4. Note trade-offs only when they affect the decision. Avoid speculative architecture and checklists unrelated to the task.
+Propose a proportionate sequence of changes with affected files, assumptions, trade-offs, and verification criteria. Use the complexity findings to prioritize work, not to mandate refactoring.
 
-## Reviewing
+## Output
 
-1. Compare the change with intended behavior and nearby code.
-2. Prioritize correctness, data integrity, security, failure handling, and compatibility.
-3. Trace any difficult control flow. Look for hidden state changes, cyclic dependencies, mixed responsibilities, and scattered business rules. Explain how they create a concrete risk; length alone is not a defect.
-4. Check for avoidable I/O or computation. Distinguish measured problems from suspected ones.
-5. Check whether a maintainer can follow the code and make a localized change without navigating unnecessary indirection.
+Always include:
 
-## Response
+**Complexity assessment**
 
-For a plan, give actionable steps and verification criteria. For a review, report findings by severity with file, location, consequence, and focused remedy. If no actionable finding is supported, say so.
+| Scope / metric | Current result | Evidence / method |
+| --- | --- | --- |
+| Function or module / metric name | Measured value or qualitative observation | Analyzer or code path |
 
-State which checks actually ran and which did not. Do not claim tests passed without evidence.
+**Tuning suggestions**
+
+| Priority | Location | Issue and evidence | Suggested change | Expected benefit / risk |
+| --- | --- | --- | --- | --- |
+
+Use **None supported** if no actionable tuning is justified. For a code review, report correctness and security findings before style or complexity concerns. State which checks actually ran and which could not be run. Do not claim measured speedups or passing tests without evidence.

@@ -1,10 +1,11 @@
 # Before finishing
 
-- [ ] The requested behavior is implemented.
-- [ ] The change follows relevant repository conventions.
-- [ ] Error handling, security, and compatibility have been considered where applicable.
-- [ ] Control flow and dependencies remain understandable.
-- [ ] Relevant tests or checks have run, or their absence is stated.
-- [ ] The response separates verified results from assumptions.
+- [ ] The requested behavior or review scope is addressed.
+- [ ] Relevant conventions, errors, security, and compatibility were considered.
+- [ ] Complexity is reported with a stated scope and method; unavailable measurements are identified as qualitative.
+- [ ] For pragmatic-code, before and after complexity use comparable methods, or the missing baseline is explained.
+- [ ] For pragmatic-review, tuning suggestions cite concrete code evidence and explain likely benefits and risks.
+- [ ] Tests and checks actually run are distinguished from assumptions.
+- [ ] The response states remaining limitations.
 
-This is a review aid, not proof that the code has been validated.
+This is a review aid, not proof that code has been validated.
