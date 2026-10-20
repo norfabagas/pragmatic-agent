@@ -1,38 +1,24 @@
 ---
 name: pragmatic-review
-description: Plan changes or review code; assess code complexity and recommend evidence-based tuning without modifying code.
+description: Plan or review code; identify relevant quality risks and prioritized tuning opportunities with minimal analysis overhead.
 ---
 
 # pragmatic-review
 
-Use for implementation planning or code review. Inspect the relevant code and provide a complexity assessment with specific tuning opportunities. Do not edit files unless explicitly asked to execute; use pragmatic-code for implementation.
+Plan changes or review existing code without editing files.
 
-## Inspect
+## Workflow
 
-1. Define the review scope and trace the relevant execution paths. Read tests, contracts, and project conventions.
-2. Measure current complexity using an existing project analyzer where available. Prefer cyclomatic complexity per function, cognitive complexity, and duplication or dependency indicators when supported.
-3. Name the tool, scope, and actual values. If measurement is unavailable, give a **qualitative** assessment of branching, nesting, hidden state, coupling, and responsibility boundaries. Never invent numeric scores.
-4. Examine correctness, failure handling, security, compatibility, readability, and avoidable work. Treat high complexity as a signal to investigate, not proof of a defect.
-5. Identify concrete tuning opportunities, including simplifying control flow, localizing state, reducing unnecessary coupling, removing repeated I/O, or separating unrelated responsibilities.
-6. Estimate impact and implementation risk as judgments, not measurements. Avoid speculative rewrites and recommend leaving justified complexity alone.
-
-## Planning
-
-Propose a proportionate sequence of changes with affected files, assumptions, trade-offs, and verification criteria. Use the complexity findings to prioritize work, not to mandate refactoring.
+1. Scope the request to relevant files and execution paths. Read nearby tests and contracts only as needed.
+2. Assess five core indicators: **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface**. Prefer existing analyzer results. Use qualitative evidence when numbers are unavailable; never invent scores.
+3. Prioritize correctness, security, error handling, and compatibility before maintainability or performance concerns.
+4. Trace concrete hotspots: nested control flow, hidden state, circular dependencies, scattered business rules, or repeated expensive operations. High metric values alone are not defects.
+5. Suggest only changes supported by evidence. For planning, give a small implementation sequence and verification criteria; for review, give findings ordered by risk.
 
 ## Output
 
-Always include:
+Give a concise **Metric | Current | Evidence** summary for relevant indicators, followed by at most **three** highest-value tuning suggestions with location, proposed change, expected benefit, and risk. If nothing warrants tuning, say so. State which checks actually ran.
 
-**Complexity assessment**
+## Optional checks and token budget
 
-| Scope / metric | Current result | Evidence / method |
-| --- | --- | --- |
-| Function or module / metric name | Measured value or qualitative observation | Analyzer or code path |
-
-**Tuning suggestions**
-
-| Priority | Location | Issue and evidence | Suggested change | Expected benefit / risk |
-| --- | --- | --- | --- | --- |
-
-Use **None supported** if no actionable tuning is justified. For a code review, report correctness and security findings before style or complexity concerns. State which checks actually ran and which could not be run. Do not claim measured speedups or passing tests without evidence.
+Consider coverage and static-analysis findings when available. Mutation testing, performance benchmarks, profiling, and cohesion analysis are opt-in based on the task. Avoid repository-wide scans, new dependencies, repeated file reads, long metric tables, and arbitrary overall quality scores unless explicitly requested.

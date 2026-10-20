@@ -2,38 +2,30 @@
 
 Coding skills for your AI agent.
 
-Pragmatic Agent provides two instructions for coding agents: `pragmatic-code` for implementation and `pragmatic-review` for planning or code review. Both inspect code complexity and focus on changes that are understandable, reliable, and maintainable.
+Two skills: `pragmatic-code` for implementation and `pragmatic-review` for planning or code review. Both favor understandable, reliable, maintainable code and assess relevant quality indicators without exhaustive analysis.
 
 ## Install
 
-Once the package is published to npm, run this from your project:
+Once published to npm, run in your project:
 
 ```sh
 npx pragmatic-agent
 ```
 
-Select your agent when prompted. To skip the prompt:
+Select the agent when prompted, or pass `--agent claude|codex|antigravity` to skip the prompt. Use `--dir PATH` for another project or `--scope global` for user-level installation. Modified skills are preserved unless `--force` is passed.
 
-```sh
-npx pragmatic-agent --agent claude
-npx pragmatic-agent --agent codex
-npx pragmatic-agent --agent antigravity
-```
-
-Use `--dir /path/to/project` to install elsewhere or `--scope global` for user-level installation. Modified skills are preserved unless you pass `--force`.
-
-The command installs instruction files. It does not run an agent or analyze code itself.
+The installer copies skill instructions; it does not execute an AI agent or analyze code.
 
 ## Skills
 
-| Skill | What it does | Complexity output |
+| Skill | Purpose | Output |
 | --- | --- | --- |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Implement, debug, and refactor with focused changes | Before/after complexity for affected code, measured using the same method |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Plan changes or review existing code | Current complexity, hotspots, and evidence-based tuning suggestions |
+| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Implement, debug, refactor | Relevant before/after quality metrics and verification |
+| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Plan or review | Current metrics and up to three evidence-based tuning suggestions |
 
-Complexity measurement uses tools already available in the target project when possible. The skills prefer per-function cyclomatic and cognitive complexity, plus relevant duplication or coupling indicators. If a tool is unavailable, the agent reports a qualitative assessment instead of inventing scores. Lower complexity is not an end in itself: necessary branching and domain constraints may justify a higher score.
+Both skills consider **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface**. They reuse existing tools, inspect affected code rather than the whole repository, and report qualitative observations when numeric measurements are unavailable. Only relevant findings appear in the response.
 
-Both skills use KISS, DRY, SOLID, YAGNI, and Clean Code as aids to engineering judgment, not rigid rules.
+Coverage and static-analysis results are used when already available. Mutation testing, profiling, and performance benchmarks run only when justified. No arbitrary combined quality score is produced.
 
 ## Agent locations
 
@@ -43,11 +35,11 @@ Both skills use KISS, DRY, SOLID, YAGNI, and Clean Code as aids to engineering j
 | Codex | `.agents/skills` |
 | Antigravity | `.agents/skills` |
 
-Start a new agent session after installation if necessary. See [compatibility](docs/compatibility.md) for global paths and limitations.
+Restart the agent session after installation if needed. See [compatibility](docs/compatibility.md).
 
 ## Development
 
-The npm package has not been published yet. From a checkout, run `node bin/pragmatic-agent.mjs --agent codex` instead.
+The npm package has not been published yet. From a checkout, use `node bin/pragmatic-agent.mjs --agent codex`.
 
 ```sh
 npm test
@@ -55,6 +47,6 @@ npm run validate
 npm pack --dry-run
 ```
 
-Development commits go to `dev`; the maintainer manually merges releases into `main` through a pull request.
+Changes go to `dev`; the maintainer merges releases into `main` through a manual pull request.
 
 [Contributing](CONTRIBUTING.md) · [License](LICENSE)

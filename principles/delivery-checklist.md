@@ -1,11 +1,11 @@
 # Before finishing
 
 - [ ] The requested behavior or review scope is addressed.
-- [ ] Relevant conventions, errors, security, and compatibility were considered.
-- [ ] Complexity is reported with a stated scope and method; unavailable measurements are identified as qualitative.
-- [ ] For pragmatic-code, before and after complexity use comparable methods, or the missing baseline is explained.
-- [ ] For pragmatic-review, tuning suggestions cite concrete code evidence and explain likely benefits and risks.
-- [ ] Tests and checks actually run are distinguished from assumptions.
-- [ ] The response states remaining limitations.
+- [ ] Relevant correctness, security, error handling, and compatibility risks were considered.
+- [ ] Available quality indicators were checked in the affected scope without unnecessary scans or new tooling.
+- [ ] pragmatic-code reports comparable before/after results or explains missing baselines.
+- [ ] pragmatic-review offers only evidence-based tuning suggestions, prioritized by impact.
+- [ ] Tests actually run are distinguished from unverified assumptions.
+- [ ] Output stays concise; missing numeric metrics are not fabricated.
 
-This is a review aid, not proof that code has been validated.
+This checklist is not proof of verification.

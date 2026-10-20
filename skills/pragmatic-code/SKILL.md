@@ -1,37 +1,25 @@
 ---
 name: pragmatic-code
-description: Implement features, fix bugs, and refactor code; measure and report code complexity before and after changes.
+description: Implement, debug, or refactor code; compare relevant quality metrics before and after without costly broad analysis.
 ---
 
 # pragmatic-code
 
-Implement the requested behavior without unnecessary complexity. Make code understandable to maintainers, reliable under expected failures, and efficient where evidence supports optimization.
+Implement the requested behavior with readable flow, deliberate error handling, and focused changes.
 
-## Before editing
+## Workflow
 
-1. Read the relevant code, tests, contracts, and conventions. Trace the affected execution path.
-2. Establish a **before** complexity baseline for the affected functions or modules. Record the files, measurement method, and values.
-3. Use the project's existing analyzer when available. Prefer cyclomatic complexity per function, cognitive complexity, and duplication or dependency indicators when supported. Do not install a new dependency solely to produce a metric without permission.
-4. If no suitable analyzer is available, inspect branching, nesting, mutable state, dependencies, and responsibility boundaries manually. Label the result **qualitative**, not a numeric score. Do not invent numbers.
-5. Identify compatibility, error, and security constraints. Choose the smallest change that meets the requirements.
+1. Read only the affected code paths, tests, and contracts. Record a **before** baseline before editing.
+2. Inspect five core indicators in the affected scope: **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface** (files/modules affected by the behavior). Use existing analyzers and available evidence; do not install tooling solely for metrics.
+3. Measure only indicators that are available and relevant. If unavailable, use a brief **qualitative** observation; never invent numeric values. Do not scan the whole repository for a local change.
+4. Implement the smallest sound change. Check for tangled branching, hidden state, circular dependencies, scattered rules, and avoidable work. Treat metric increases as signals to explain, not automatic failures.
+5. Repeat comparable measurements **after** the change. Include added or removed functions in the explanation. Run relevant tests.
+6. Report only meaningful changes or risks, using one compact table: **Metric | Before | After | Note**. Name the measurement scope and tool. State unavailable baselines and checks not run.
 
-## While editing
+## Optional checks
 
-- Keep state changes and control flow explicit. Use meaningful names and related responsibilities.
-- Handle expected errors, validation, and resource cleanup.
-- Inspect for spaghetti-code symptoms: tangled branches, hidden shared state, implicit ordering, circular dependencies, scattered domain rules, and excessive change ripple.
-- Fix complexity when it creates a concrete correctness, comprehension, or maintenance problem. Do not chase lower scores at the cost of clear code.
-- Avoid speculative abstractions, unnecessary I/O, and unrelated refactoring. Measure before claiming runtime improvements.
+Use coverage and static-analysis findings if already available. Run mutation tests, performance benchmarks, memory or I/O profiling, and deeper cohesion analysis **only** when the task warrants them; avoid expensive checks by default.
 
-## After editing
+## Token budget
 
-1. Re-run the **same** complexity method on the same scope. Include newly introduced functions in the after result, and identify added or removed functions rather than silently dropping them.
-2. Compare before and after. Explain increases when they reflect necessary behavior, and note remaining hotspots.
-3. Run relevant tests and checks. Keep measured complexity separate from test outcomes and performance claims.
-4. Report the results in this format:
-
-| Scope / metric | Before | After | Change |
-| --- | --- | --- | --- |
-| Function or module / metric name | Measured value or qualitative observation | Same method | Difference or explanation |
-
-State the analyzer and scope, actual verification, and limitations. If a before snapshot was not available, say so and do not fabricate a comparison.
+Prefer existing tool output over reading extra files. Reuse measurements already produced. Limit reporting to changed metrics, notable hotspots, and verification. Do not generate an overall quality score, exhaustive per-function tables, or generic advice.
