@@ -2,6 +2,12 @@
 
 Contributions should make agent behavior measurably more useful without adding unnecessary complexity.
 
+## Branch workflow
+
+All development changes go to `dev`. The `main` branch is reserved for releases; the maintainer opens and merges pull requests from `dev` to `main` manually. Do not push development commits directly to `main`.
+
+GitHub Actions validation is temporarily manual (`Actions → Validate Agent Skills → Run workflow`) while the failed runs are investigated. Run `node scripts/validate-skills.mjs` locally before proposing changes.
+
 ## Proposing changes
 
 1. Open an issue describing the concrete failure mode, intended improvement, and an example task.
