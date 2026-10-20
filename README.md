@@ -8,15 +8,15 @@ It is guidance for an AI agent, not a linter or a guarantee of code quality.
 
 ## Install
 
-Requires Node.js 18+. Clone this repository and run the installer from its root:
+Requires Node.js 18+. Clone this repository, then run the installer from its root. Replace `/path/to/your-project` with the project that should receive the skills:
 
 ```sh
-node bin/pragmatic-agent.mjs install --agent claude
-node bin/pragmatic-agent.mjs install --agent codex
-node bin/pragmatic-agent.mjs install --agent antigravity
+node bin/pragmatic-agent.mjs install --agent claude --dir /path/to/your-project
+node bin/pragmatic-agent.mjs install --agent codex --dir /path/to/your-project
+node bin/pragmatic-agent.mjs install --agent antigravity --dir /path/to/your-project
 ```
 
-Each command installs the same four skills into the **current project's** agent skills directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
+Each command installs the same four skills into the **specified project's** agent skills directory. Without `--dir`, the installer uses the current working directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
 
 To install for all projects, add `--scope global`. Use `--dir /path/to/project` to select a different project. Installation refuses to overwrite changed skills; `--force` explicitly replaces them.
 
