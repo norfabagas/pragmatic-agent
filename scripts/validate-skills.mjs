@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-const root = resolve(import.meta.dirname ?? new URL('..', import.meta.url).pathname, '..');
+const root = resolve(new URL('..', import.meta.url).pathname);
 const skillsDir = join(root, 'skills');
 const ruleFile = readFileSync(join(root, 'principles', 'core-rules.md'), 'utf8');
 const ids = [...ruleFile.matchAll(/\| (PA-\d{2}) \|/g)].map((m) => m[1]);
