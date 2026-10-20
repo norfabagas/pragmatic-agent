@@ -1,6 +1,6 @@
 # Pragmatic Agent
 
-Coding skills for **Claude Code, Codex, and Antigravity**.
+Coding skills for your AI agent.
 
 Pragmatic Agent guides coding agents toward code that people can understand and change. It favors straightforward control flow, deliberate error handling, proportionate abstractions, and verified behavior. It also flags spaghetti code: hidden state, tangled branching, mixed responsibilities, and dependencies that make small changes expensive.
 
