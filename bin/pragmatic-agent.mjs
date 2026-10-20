@@ -10,7 +10,7 @@ const supported = {
   codex: { project: '.agents/skills', global: '.agents/skills' },
   antigravity: { project: '.agents/skills', global: '.gemini/config/skills' },
 };
-const names = ['pragmatic-core', 'pragmatic-code', 'pragmatic-review', 'pragmatic-spaghetti'];
+const names = ['pragmatic-code', 'pragmatic-review'];
 const args = process.argv.slice(2);
 const command = args[0] || 'help';
 function fail(message) { console.error(message); process.exitCode = 1; }

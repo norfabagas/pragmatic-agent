@@ -16,6 +16,6 @@ for (const dir of dirs) {
   const fm = body.match(/^---\n([\s\S]*?)\n---\n/);
   if (!fm || !fm[1].split('\n').includes('name: ' + dir.name) || !fm[1].split('\n').some(line => line.startsWith('description: '))) errors.push('Invalid skill metadata: ' + dir.name);
 }
-if (dirs.length !== 4) errors.push('Expected four skill bundles.');
+if (dirs.length !== 2 || !['pragmatic-code', 'pragmatic-review'].every(name => dirs.some(dir => dir.name === name))) errors.push('Expected pragmatic-code and pragmatic-review only.');
 if (errors.length) { errors.forEach(e => console.error(e)); process.exitCode = 1; }
 else console.log('Validated ' + dirs.length + ' skills and ' + ids.length + ' rules.');

@@ -16,7 +16,7 @@ node bin/pragmatic-agent.mjs install --agent codex --dir /path/to/your-project
 node bin/pragmatic-agent.mjs install --agent antigravity --dir /path/to/your-project
 ```
 
-Each command installs the same four skills into the **specified project's** agent skills directory. Without `--dir`, the installer uses the current working directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
+Each command installs the same two skills into the **specified project's** agent skills directory. Without `--dir`, the installer uses the current working directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
 
 To install for all projects, add `--scope global`. Use `--dir /path/to/project` to select a different project. Installation refuses to overwrite changed skills; `--force` explicitly replaces them.
 
@@ -35,18 +35,16 @@ node bin/pragmatic-agent.mjs doctor --agent codex
 node bin/pragmatic-agent.mjs uninstall --agent codex
 ```
 
-Uninstall removes only skills identical to the bundled version. It refuses to delete edited files.
+Uninstall removes only the two current skills if they match the bundled version. It refuses to delete edited files. Older installations may still contain `pragmatic-core` or `pragmatic-spaghetti`; remove those directories manually after checking for local changes.
 
 ## Skills
 
 | Skill | What it does |
 | --- | --- |
-| [pragmatic-core](skills/pragmatic-core/SKILL.md) | Weighs requirements, simplicity, robustness, and maintainability |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Guides implementation with readable flow and explicit error handling |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviews correctness, efficiency, and code structure |
-| [pragmatic-spaghetti](skills/pragmatic-spaghetti/SKILL.md) | Traces tangled control flow, coupling, and hidden state |
+| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Executes changes with pragmatic design, readable flow, error handling, and spaghetti-code prevention |
+| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviews correctness, efficiency, spaghetti code, and maintainability |
 
-Restart the agent session after installation if the skills are not discovered. You can request a skill explicitly, for example: `Use pragmatic-spaghetti to review the order processing flow.`
+Restart the agent session after installation if the skills are not discovered. You can request a skill explicitly, for example: `Use pragmatic-review to review the order processing flow.`
 
 ## Engineering standard
 

@@ -1,17 +1,38 @@
 ---
 name: pragmatic-code
-description: Write and improve understandable, efficient, robust, maintainable code while avoiding needless abstraction, hidden state, and tangled control flow.
+description: Execute coding tasks, implement features, fix bugs, and refactor using pragmatic principles; prevent and untangle spaghetti code without changing behavior unnecessarily.
 ---
 
-# Implementation guidance
+# Pragmatic execution
 
-1. Inspect existing modules and the narrowest relevant behavior.
-2. Implement the requested change within established boundaries. Prefer explicit data flow, meaningful names, cohesive functions, and predictable errors.
-3. Keep the number of concepts a reader must track small. Reduce unnecessary nesting with guard clauses where they clarify logic; do not fragment every line into helpers.
-4. Avoid spaghetti code: no unrelated responsibilities in one flow, hidden shared mutations, implicit ordering dependencies, or duplicated domain rules spread across modules.
-5. Do not introduce interfaces, layers, factories, caching, or dependencies without a demonstrated need.
-6. Consider failure cases, validation, compatibility, resource usage, and relevant security boundaries.
-7. Test behavior and edge cases. Measure before asserting a performance improvement.
-8. Keep the diff focused and state exactly what was verified.
+Deliver correct code that a human can understand, that uses resources deliberately, handles failures, and remains easy to change.
 
-Useful duplication may be clearer than premature generalization. Short code is not necessarily simple code; optimize for a human understanding what happens and why.
+## Before editing
+
+1. Trace the relevant execution path and read nearby tests and conventions.
+2. Identify actual requirements, compatibility constraints, and security boundaries.
+3. Prefer a focused change over a new architecture. Use KISS, DRY, SOLID, YAGNI, and Clean Code as judgment tools, not rules to maximize.
+
+## During implementation
+
+- Make control flow and state transitions explicit. Use meaningful names and cohesive responsibilities.
+- Handle invalid input, expected failures, and resource cleanup deliberately.
+- Avoid unnecessary I/O, allocations, dependencies, and indirection. Measure before claiming speedups.
+- Keep edits localized. Do not refactor unrelated code or invent future requirements.
+
+## Detect and prevent spaghetti code
+
+Inspect the affected execution path for:
+- deeply nested branches that obscure outcomes;
+- hidden mutations, shared mutable state, or implicit call ordering;
+- cyclic dependencies or business rules scattered across unrelated modules;
+- functions mixing unrelated responsibilities;
+- a small behavior change requiring coordinated edits across many files.
+
+Do not classify code as spaghetti solely because a function is long or has a high complexity score. Establish a concrete readability, defect, testing, or change-cost problem.
+
+For tangled code, make the smallest safe improvement: guard clauses, named intermediate values, isolating state, separating responsibilities, or removing a justified dependency. Preserve observable behavior. Add characterization tests before risky restructuring where practical; verify after each step. Do not introduce a generic framework as the cure.
+
+## Finish
+
+Test observable behavior and relevant edge cases when possible. State what changed, checks actually run, and remaining limitations. Never invent verification results.

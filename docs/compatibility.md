@@ -1,6 +1,6 @@
 # Installation and compatibility
 
-The installer copies the same four `SKILL.md` bundles into the documented project or personal skill locations. It does not install an agent, configure a model, or guarantee automatic activation.
+The installer copies the same two `SKILL.md` bundles into the documented project or personal skill locations. It does not install an agent, configure a model, or guarantee automatic activation.
 
 | Host | Project directory | Personal directory |
 | --- | --- | --- |
@@ -14,7 +14,9 @@ Antigravity CLI personal skills live under `~/.gemini/antigravity-cli/skills`, w
 
 Run `node bin/pragmatic-agent.mjs install --agent <host>` from this checkout while inside the target project, or provide `--dir`. For global installation add `--scope global`. Run `doctor` with the same options to check the files.
 
-On first use, start a new agent session and request `pragmatic-core` for a feature change or `pragmatic-spaghetti` for a code-flow review. The agent may discover skills based on their descriptions without explicit invocation.
+On first use, start a new agent session and request `pragmatic-code` for a feature change or `pragmatic-review` for a code-flow review. The agent may discover skills based on their descriptions without explicit invocation.
+
+Previous installations may retain obsolete `pragmatic-core` and `pragmatic-spaghetti` directories. The installer does not delete those directories automatically, to avoid removing user edits. Review and remove them manually if no longer needed.
 
 ## Limits
 

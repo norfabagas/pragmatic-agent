@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 
 const cli = resolve('bin/pragmatic-agent.mjs');
 const agents = { claude: '.claude/skills', codex: '.agents/skills', antigravity: '.agents/skills' };
-const names = ['pragmatic-core', 'pragmatic-code', 'pragmatic-review', 'pragmatic-spaghetti'];
+const names = ['pragmatic-code', 'pragmatic-review'];
 function run(...args) { return spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' }); }
 
 for (const [agent, dir] of Object.entries(agents)) {
