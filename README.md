@@ -1,74 +1,69 @@
 # Pragmatic Agent
 
-Pragmatic engineering rules for AI coding agents.
+Coding skills for **Claude Code, Codex, and Antigravity**.
 
-AI can write working code and still make a small change harder to maintain: a new interface for one implementation, a generic repository for one table, or a refactor unrelated to the request. Pragmatic Agent helps agents recognize when those additions are warranted—and when they are not.
+Pragmatic Agent guides coding agents toward code that people can understand and change. It favors straightforward control flow, deliberate error handling, proportionate abstractions, and verified behavior. It also flags spaghetti code: hidden state, tangled branching, mixed responsibilities, and dependencies that make small changes expensive.
 
-It is a set of instructions, not a code analyzer. It cannot guarantee that an agent follows every rule.
+It is guidance for an AI agent, not a linter or a guarantee of code quality.
 
-## What it changes
+## Install
 
-**Request:** Add an endpoint to retrieve a product by ID.
+Requires Node.js 18+. Clone this repository and run the installer from its root:
 
-**Without context:** Introduce a base repository, service interface, mapper, and dependency injection wiring before implementing the endpoint.
+```sh
+node bin/pragmatic-agent.mjs install --agent claude
+node bin/pragmatic-agent.mjs install --agent codex
+node bin/pragmatic-agent.mjs install --agent antigravity
+```
 
-**With Pragmatic Agent:** Read the current routing and data-access patterns. Add the endpoint using the existing structure, handle missing products, and test its behavior. Introduce a new layer only if the codebase actually needs one.
+Each command installs the same four skills into the **current project's** agent skills directory. Run the command for each agent you use. Codex and Antigravity share `.agents/skills`, so a second install should be a no-op.
 
-The goal is not fewer lines at any cost. It is code that fits the problem and the repository.
+To install for all projects, add `--scope global`. Use `--dir /path/to/project` to select a different project. Installation refuses to overwrite changed skills; `--force` explicitly replaces them.
 
-## Rules
+| Agent | Project | Global |
+| --- | --- | --- |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex | `.agents/skills/` | `~/.agents/skills/` |
+| Antigravity (app) | `.agents/skills/` | `~/.gemini/config/skills/` |
 
-The rules cover understanding existing code, choosing proportional abstractions, naming, duplication, error handling, compatibility, security, and verification. Their source is [core-rules.md](principles/core-rules.md), with a short [decision process](principles/decision-framework.md).
+The Antigravity CLI has a different global skills directory; this installer currently targets the Antigravity **app**. See [compatibility](docs/compatibility.md).
 
-Three principles govern the rest:
+## Check or remove
 
-- Read before changing.
-- Avoid complexity without a demonstrated benefit.
-- Never claim verification that did not happen.
+```sh
+node bin/pragmatic-agent.mjs doctor --agent codex
+node bin/pragmatic-agent.mjs uninstall --agent codex
+```
 
-Clean Code, SOLID, DRY, KISS, and YAGNI are useful when applied with judgment. None is a reason to ignore a project's actual requirements.
+Uninstall removes only skills identical to the bundled version. It refuses to delete edited files.
 
 ## Skills
 
-| Skill | Use it for |
+| Skill | What it does |
 | --- | --- |
-| [pragmatic-core](skills/pragmatic-core/SKILL.md) | Making implementation decisions against existing constraints |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Writing or improving code without unnecessary abstraction |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviewing changes for concrete defects and avoidable complexity |
+| [pragmatic-core](skills/pragmatic-core/SKILL.md) | Weighs requirements, simplicity, robustness, and maintainability |
+| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Guides implementation with readable flow and explicit error handling |
+| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviews correctness, efficiency, and code structure |
+| [pragmatic-spaghetti](skills/pragmatic-spaghetti/SKILL.md) | Traces tangled control flow, coupling, and hidden state |
 
-The skills are readable Markdown files. Their current versions are self-contained so a copied skill does not require the source repository to be installed alongside it.
+Restart the agent session after installation if the skills are not discovered. You can request a skill explicitly, for example: `Use pragmatic-spaghetti to review the order processing flow.`
 
-## Agents
+## Engineering standard
 
-The initial scope is **Claude Code, OpenAI Codex, and Google Antigravity**. These are agent environments, not model API integrations.
+- **Readable:** make intent, state changes, and failure paths understandable to a human.
+- **Efficient:** avoid wasted work; substantiate performance claims.
+- **Robust:** account for failure modes, security boundaries, and compatibility.
+- **Maintainable:** prefer cohesive modules and focused changes over unnecessary indirection.
 
-| Agent | Status |
-| --- | --- |
-| Claude Code | Targeted; installation and activation not yet tested |
-| OpenAI Codex | Targeted; installation and activation not yet tested |
-| Google Antigravity | Targeted; installation and activation not yet tested |
+The [core rules](principles/core-rules.md) describe the underlying principles. They are not an excuse for broad refactoring or dogmatic application of SOLID or DRY.
 
-For now, open the relevant `SKILL.md` and provide it to your agent as project or session instructions using the mechanism supported by your installed version. You can also copy skill directories into the agent's documented skills location. **No automatic installer is available yet**, and copying a file alone does not establish that an agent will discover or follow it.
-
-## Repository
-
-```text
-principles/   Canonical engineering rules and decision process
-skills/       Core, code, and review instructions
-scripts/      Skill metadata validation
-.github/      CI validation
-```
-
-Run the repository's structural check with Node.js 18 or newer:
+## Development
 
 ```sh
-node scripts/validate-skills.mjs
+npm test
+npm run validate
 ```
 
-This checks skill metadata and rule identifiers. It does not test agent behavior. Cross-agent activation tests and an installer are future work, not current features.
+All development goes to `dev`. The maintainer manually opens and merges a PR to `main` for releases. GitHub Actions validation remains manual until the pipeline issue is resolved.
 
-## Contributing
-
-Changes to a rule should describe a failure case, not just a style preference. See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-MIT license. See [LICENSE](LICENSE).
+MIT. [Contributing](CONTRIBUTING.md) · [Compatibility](docs/compatibility.md)

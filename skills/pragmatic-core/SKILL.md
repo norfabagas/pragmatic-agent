@@ -1,29 +1,28 @@
 ---
 name: pragmatic-core
-description: Apply contextual engineering principles when planning, implementing, debugging, refactoring, or delivering code.
+description: Apply pragmatic engineering judgment when planning or changing software so code stays understandable, efficient, robust, and maintainable.
 ---
 
-# pragmatic-core
+# Pragmatic engineering
 
-Use this skill when a coding task needs engineering judgment or the appropriate implementation approach is unclear.
+Apply when implementing features, fixing bugs, or deciding between designs.
 
-## Canonical references
+## Goals
 
-Read `principles/philosophy.md`, `principles/core-rules.md`, and `principles/decision-framework.md` when they are available in the repository. If they are not available, use the self-contained workflow below; do not assume the agent can read files outside the installed skill directory.
+- **Human-readable:** a maintainer can follow control flow, names, state changes, and error paths without reconstructing hidden conventions.
+- **Efficient:** avoid unnecessary runtime work, I/O, dependencies, and developer effort; measure performance before claiming gains.
+- **Robust:** handle expected failures, inputs, boundaries, and compatibility requirements deliberately.
+- **Maintainable:** localize change, reduce unnecessary coupling, and preserve useful tests and project conventions.
 
-## Workflow
+## Method
 
-1. Inspect the relevant codebase and requirements before choosing a solution.
-2. Favor the simplest adequate change and follow existing conventions.
-3. Add abstractions and dependencies only for concrete needs.
-4. Preserve behavior, compatibility, and relevant security boundaries.
-5. Verify what can actually be verified.
-6. Report changes, executed checks, and any unresolved uncertainty.
+1. Read relevant code, requirements, tests, and existing patterns before changing anything.
+2. Choose the least complex design that meets the actual behavior, reliability, and security requirements.
+3. Keep responsibilities coherent, state transitions explicit, and dependencies intentional. Avoid speculative layers and unrelated edits.
+4. Check for spaghetti-code symptoms: tangled branching, hidden mutation, circular dependencies, scattered business rules, and changes that ripple unnecessarily.
+5. Verify behavior and relevant edge cases with available tools; never claim a check ran when it did not.
+6. Report changes, tests actually run, and remaining limitations briefly.
 
-## Trade-offs
+KISS, YAGNI, DRY, SOLID, and Clean Code are decision aids, not unconditional requirements. Prefer an existing straightforward pattern over a new abstraction unless a concrete problem justifies it.
 
-Treat DRY, SOLID, Clean Code, KISS, and YAGNI as contextual tools. Avoid speculative extensibility and unrelated rewrites. Do not invent results from commands or tests you have not executed.
-
-## Delivery
-
-State what changed, what checks were run, and meaningful limitations. Do not generate an extended checklist for trivial work.
+When doing a focused review of tangled code, use `pragmatic-spaghetti`. When reviewing a patch, use `pragmatic-review`.

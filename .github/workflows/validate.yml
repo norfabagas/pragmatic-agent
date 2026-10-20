@@ -1,15 +1,11 @@
 name: Validate Agent Skills
 
-# Manual while investigating failed runs. Avoid running on every push.
+# Manual trigger until historical workflow failures are investigated.
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
-
-concurrency:
-  group: validate-agent-skills-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   validate:
@@ -20,4 +16,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node scripts/validate-skills.mjs
+      - run: npm run validate
+      - run: npm test

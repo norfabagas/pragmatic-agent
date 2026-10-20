@@ -1,24 +1,23 @@
-# Agent compatibility
+# Installation and compatibility
 
-Pragmatic Agent v0.1 targets three coding-agent environments:
+The installer copies the same four `SKILL.md` bundles into the documented project or personal skill locations. It does not install an agent, configure a model, or guarantee automatic activation.
 
-| Environment | Status | Current approach |
+| Host | Project directory | Personal directory |
 | --- | --- | --- |
-| Claude Code | Not verified | Use the skill text through documented project/session instructions or skills support |
-| OpenAI Codex | Not verified | Use the skill text through documented project/session instructions or skills support |
-| Google Antigravity | Not verified | Use the skill text through documented project/session instructions or skills support |
+| Claude Code | `.claude/skills` | `~/.claude/skills` |
+| Codex | `.agents/skills` | `~/.agents/skills` |
+| Antigravity app | `.agents/skills` | `~/.gemini/config/skills` |
 
-These are integration targets, not confirmed support claims. Installation paths and skill discovery behavior may change between agent versions.
+Antigravity CLI personal skills live under `~/.gemini/antigravity-cli/skills`, which this installer does not currently target. Antigravity also accepts legacy `.agent/skills`, but new installations use `.agents/skills`.
 
-## Validation needed
+## Usage
 
-For each environment:
+Run `node bin/pragmatic-agent.mjs install --agent <host>` from this checkout while inside the target project, or provide `--dir`. For global installation add `--scope global`. Run `doctor` with the same options to check the files.
 
-1. Confirm how that version loads skills or project instructions.
-2. Install or explicitly provide `pragmatic-core`.
-3. Start a fresh session and request a small change in a test repository.
-4. Check whether the agent actually read and applied the skill.
-5. Verify that output remains correct and does not add unnecessary architecture.
-6. Record the agent version, steps, and outcome.
+On first use, start a new agent session and request `pragmatic-core` for a feature change or `pragmatic-spaghetti` for a code-flow review. The agent may discover skills based on their descriptions without explicit invocation.
 
-This project does not route inference requests to Claude, OpenAI, or Gemini models. It ships instructions intended to work through their respective agent hosts.
+## Limits
+
+File installation and local script tests can be verified without access to running agent hosts. End-to-end activation and compliance on Claude Code, Codex, and Antigravity must still be tested in each installed application. This repository does not route model API calls.
+
+Documentation: [Claude Code skills](https://code.claude.com/docs/en/skills), [Codex](https://developers.openai.com/blog/skills-agents-sdk), [Antigravity skills](https://www.antigravity.google/docs/skills).

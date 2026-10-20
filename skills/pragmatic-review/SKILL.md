@@ -1,27 +1,23 @@
 ---
 name: pragmatic-review
-description: Review code changes for correctness, security, maintainability, compatibility, and unjustified complexity, with evidence-based findings.
+description: Review patches and pull requests for correctness, robustness, readability, efficiency, maintainability, spaghetti code, and unnecessary complexity.
 ---
 
-# pragmatic-review
+# Code review
 
-Use when reviewing a diff, pull request, or implementation.
+Read the requested behavior, diff, and relevant surrounding code. Identify defects before preferences.
 
-## Canonical rules
+## Review order
 
-When available, consult `principles/core-rules.md`, especially PA-06–PA-10 and PA-16–PA-20.
+1. Correctness, error handling, data integrity, security, and compatibility.
+2. Spaghetti-code risks: hard-to-follow branches, hidden mutable state, cross-module cycles, mixed responsibilities, scattered rules, and high change ripple.
+3. Efficiency: repeated I/O, unnecessary work, expensive operations in hot paths; distinguish measurements from suspicions.
+4. Maintainability: names, cohesion, coupling, testability, and unjustified abstractions.
 
-## Workflow
+## Findings
 
-1. Identify intended behavior and inspect the diff plus necessary surrounding code.
-2. Prioritize demonstrable correctness, security, data integrity, and compatibility problems.
-3. Check whether the change introduces avoidable complexity or hidden side effects.
-4. Ground each finding in a specific file, location, and concrete impact.
-5. Distinguish defects from preferences and explain trade-offs if a pattern is contextually questionable.
-6. Note verification gaps without suggesting that unrun tests failed.
+Report only actionable issues supported by code evidence. For each: severity, file and location, concrete failure or maintenance consequence, and a proportionate fix. Do not infer a defect from line count or style alone.
 
-## Output
+If no supported findings exist, say so. List tests actually run and relevant gaps; never fabricate execution results. Avoid compliments, generic best-practice lists, and speculative rewrites.
 
-Report findings in descending severity, including the affected location, impact, and practical fix. If no actionable findings are supported, say so plainly and mention relevant verification limitations.
-
-Avoid praise, cosmetic nitpicks, and generic advice without evidence.
+For a dedicated untangling assessment, use `pragmatic-spaghetti`.
