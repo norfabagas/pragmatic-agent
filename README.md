@@ -1,52 +1,74 @@
 # Pragmatic Agent
 
-**Engineering judgment over rigid rules.**
+Pragmatic engineering rules for AI coding agents.
 
-Pragmatic Agent is a provider-agnostic collection of engineering principles and Agent Skills for AI coding agents. It encourages simple, maintainable, testable software built for the actual problem—not an imagined future one.
+AI can write working code and still make a small change harder to maintain: a new interface for one implementation, a generic repository for one table, or a refactor unrelated to the request. Pragmatic Agent helps agents recognize when those additions are warranted—and when they are not.
 
-## Why
+It is a set of instructions, not a code analyzer. It cannot guarantee that an agent follows every rule.
 
-AI assistants can produce working software with unnecessary layers, speculative abstractions, avoidable dependencies, and unverified claims. Pragmatic Agent provides a consistent decision framework without enforcing one architecture or coding style on every project.
+## What it changes
 
-## Philosophy
+**Request:** Add an endpoint to retrieve a product by ID.
 
-- **Context over convention.** Inspect the codebase and constraints before selecting a pattern.
-- **Simplicity over abstraction.** Choose the simplest adequate implementation.
-- **Maintainability over cleverness.** Optimize for the next engineer.
-- **Evidence over assumption.** Verify outcomes; do not invent test results.
-- **Incremental over speculative.** Implement today's requirements without premature extensibility.
-- **Trade-offs over dogma.** KISS, YAGNI, DRY, SOLID, and Clean Code are tools—not mandates.
+**Without context:** Introduce a base repository, service interface, mapper, and dependency injection wiring before implementing the endpoint.
 
-## Available skills (v0.1)
+**With Pragmatic Agent:** Read the current routing and data-access patterns. Add the endpoint using the existing structure, handle missing products, and test its behavior. Introduce a new layer only if the codebase actually needs one.
 
-| Skill | Purpose |
+The goal is not fewer lines at any cost. It is code that fits the problem and the repository.
+
+## Rules
+
+The rules cover understanding existing code, choosing proportional abstractions, naming, duplication, error handling, compatibility, security, and verification. Their source is [core-rules.md](principles/core-rules.md), with a short [decision process](principles/decision-framework.md).
+
+Three principles govern the rest:
+
+- Read before changing.
+- Avoid complexity without a demonstrated benefit.
+- Never claim verification that did not happen.
+
+Clean Code, SOLID, DRY, KISS, and YAGNI are useful when applied with judgment. None is a reason to ignore a project's actual requirements.
+
+## Skills
+
+| Skill | Use it for |
 | --- | --- |
-| [pragmatic-core](skills/pragmatic-core/SKILL.md) | Context-aware decisions and delivery |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Implementation choices, readability, and maintainability |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Evidence-based, prioritized code review |
+| [pragmatic-core](skills/pragmatic-core/SKILL.md) | Making implementation decisions against existing constraints |
+| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Writing or improving code without unnecessary abstraction |
+| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Reviewing changes for concrete defects and avoidable complexity |
 
-The canonical principles live in [principles/](principles/). Individual skills reference rules by ID rather than rewriting them.
+The skills are readable Markdown files. Their current versions are self-contained so a copied skill does not require the source repository to be installed alongside it.
 
-## Installation (manual, v0.1)
+## Agents
 
-Copy the desired `skills/pragmatic-*/` directories into your coding agent's documented skills directory, then ask your agent to use the relevant skill for the task. Check the specific agent's version and installation conventions; skill discovery and automatic activation vary.
+The initial scope is **Claude Code, OpenAI Codex, and Google Antigravity**. These are agent environments, not model API integrations.
 
-**No NPM CLI is published yet.** `npx pragmatic-agent` is a planned distribution mechanism, not a working installation command.
+| Agent | Status |
+| --- | --- |
+| Claude Code | Targeted; installation and activation not yet tested |
+| OpenAI Codex | Targeted; installation and activation not yet tested |
+| Google Antigravity | Targeted; installation and activation not yet tested |
 
-For agents without Agent Skills support, use [the core principles](principles/core-rules.md) as an explicit project instruction. This provides guidance, not a guarantee that the agent will enforce it.
+For now, open the relevant `SKILL.md` and provide it to your agent as project or session instructions using the mechanism supported by your installed version. You can also copy skill directories into the agent's documented skills location. **No automatic installer is available yet**, and copying a file alone does not establish that an agent will discover or follow it.
 
-## Compatibility
+## Repository
 
-Designed for use across models and agent hosts. Initial compatibility targets are Claude Code, OpenAI Codex, Cursor, and Gemini CLI; these integrations have **not yet been validated**. The repository does not proxy model requests or expose a provider-independent model API.
+```text
+principles/   Canonical engineering rules and decision process
+skills/       Core, code, and review instructions
+scripts/      Skill metadata validation
+.github/      CI validation
+```
 
-## Scope
+Run the repository's structural check with Node.js 18 or newer:
 
-Pragmatic Agent is not a linter, formatter, static analyzer, or a replacement for automated tests and engineering review. It should reduce unnecessary complexity without weakening correctness, security, or explicit requirements.
+```sh
+node scripts/validate-skills.mjs
+```
 
-## Development
+This checks skill metadata and rule identifiers. It does not test agent behavior. Cross-agent activation tests and an installer are future work, not current features.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Run `node scripts/validate-skills.mjs` with Node.js 18+ to validate the current skill metadata and canonical rule references.
+## Contributing
 
-## License
+Changes to a rule should describe a failure case, not just a style preference. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-MIT. See [LICENSE](LICENSE).
+MIT license. See [LICENSE](LICENSE).
