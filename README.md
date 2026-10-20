@@ -27,6 +27,15 @@ Both skills consider **cognitive complexity, cyclomatic complexity, duplication,
 
 Coverage and static-analysis results are used when already available. Mutation testing, profiling, and performance benchmarks run only when justified. No arbitrary combined quality score is produced.
 
+## Analysis scope
+
+When a skill starts, the agent asks whether to work on **current changes** or the **whole codebase**. If the request already states the scope, the agent confirms it without asking again.
+
+- **Current changes:** inspect the affected files and behavior only.
+- **Whole codebase:** use existing repository-wide tool summaries, then inspect hotspots in batches. For `pragmatic-code`, agree on the intended improvements before editing; a broad scope is not permission for indiscriminate refactoring.
+
+The selected scope determines the baseline, comparison, and report. Whole-codebase work may require more analysis, so the skills avoid reading every file into context.
+
 ## Agent locations
 
 | Agent | Project skills directory |

@@ -7,9 +7,21 @@ description: Plan or review code; identify relevant quality risks and prioritize
 
 Plan changes or review existing code without editing files.
 
+## First step: ask for scope
+
+Before reading code or running analysis, ask the user:
+
+> Choose scope for pragmatic-review:
+> 1. **Current changes** — review only the files and behavior involved in the task.
+> 2. **Whole codebase** — review the repository and identify the most important hotspots.
+>
+> Which scope: 1 or 2?
+
+Wait for the answer. Do not silently default to either option. If the user already specified the scope, confirm it briefly instead of asking again. Whole-codebase review uses staged inspection and existing tooling; avoid dumping every file into context.
+
 ## Workflow
 
-1. Scope the request to relevant files and execution paths. Read nearby tests and contracts only as needed.
+1. Use the selected scope to identify relevant files and execution paths. Read nearby tests and contracts only as needed.
 2. Assess five core indicators: **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface**. Prefer existing analyzer results. Use qualitative evidence when numbers are unavailable; never invent scores.
 3. Prioritize correctness, security, error handling, and compatibility before maintainability or performance concerns.
 4. Trace concrete hotspots: nested control flow, hidden state, circular dependencies, scattered business rules, or repeated expensive operations. High metric values alone are not defects.
@@ -21,4 +33,4 @@ Give a concise **Metric | Current | Evidence** summary for relevant indicators, 
 
 ## Optional checks and token budget
 
-Consider coverage and static-analysis findings when available. Mutation testing, performance benchmarks, profiling, and cohesion analysis are opt-in based on the task. Avoid repository-wide scans, new dependencies, repeated file reads, long metric tables, and arbitrary overall quality scores unless explicitly requested.
+Consider coverage and static-analysis findings when available. Mutation testing, performance benchmarks, profiling, and cohesion analysis are opt-in based on the task. Avoid unnecessary repository-wide scans, new dependencies, repeated file reads, long metric tables, and arbitrary overall quality scores unless explicitly requested. For whole-codebase scope, prefer tool summaries and targeted hotspot inspection.
