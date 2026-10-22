@@ -2,60 +2,84 @@
 
 Coding skills for your AI agent.
 
-Two skills: `pragmatic-code` for implementation and `pragmatic-review` for planning or code review. Both favor understandable, reliable, maintainable code and assess relevant quality indicators without exhaustive analysis.
+Pragmatic Agent provides two skills for Claude Code, Codex, and Antigravity. They help agents implement and review code with attention to maintainability, correctness, and measurable code quality.
 
-## Install
+## Installation
 
-Once published to npm, run in your project:
+Run from your project directory:
 
 ```sh
 npx pragmatic-agent
 ```
 
-Select the agent when prompted, or pass `--agent claude|codex|antigravity` to skip the prompt. Use `--dir PATH` for another project or `--scope global` for user-level installation. Modified skills are preserved unless `--force` is passed.
+Choose your coding agent when prompted, or specify it directly:
 
-The installer copies skill instructions; it does not execute an AI agent or analyze code.
+```sh
+npx pragmatic-agent --agent claude
+npx pragmatic-agent --agent codex
+npx pragmatic-agent --agent antigravity
+```
 
-## Skills
+Use `--dir PATH` to target another project, `--scope global` for a user-level installation, or `--force` to replace existing skill files.
 
-| Skill | Purpose | Output |
-| --- | --- | --- |
-| [pragmatic-code](skills/pragmatic-code/SKILL.md) | Implement, debug, refactor | Relevant before/after quality metrics and verification |
-| [pragmatic-review](skills/pragmatic-review/SKILL.md) | Plan or review | Current metrics and up to three evidence-based tuning suggestions |
+The installer copies instructions into the agent's skills directory. It does not run code analysis by itself.
 
-Both skills consider **cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface**. They reuse existing tools, inspect affected code rather than the whole repository, and report qualitative observations when numeric measurements are unavailable. Only relevant findings appear in the response.
+## Usage
 
-Coverage and static-analysis results are used when already available. Mutation testing, profiling, and performance benchmarks run only when justified. No arbitrary combined quality score is produced.
+Invoke a skill in your coding agent's conversation.
 
-## Analysis scope
+### `pragmatic-code`
 
-When a skill starts, the agent asks whether to work on **current changes** or the **whole codebase**. If the request already states the scope, the agent confirms it without asking again.
+Implements features, fixes bugs, and refactors code. It inspects the selected scope, records relevant quality indicators before editing, implements the change, and compares results afterward. It also reports which tests actually ran.
 
-- **Current changes:** inspect the affected files and behavior only.
-- **Whole codebase:** use existing repository-wide tool summaries, then inspect hotspots in batches. For `pragmatic-code`, agree on the intended improvements before editing; a broad scope is not permission for indiscriminate refactoring.
+Example prompt:
 
-The selected scope determines the baseline, comparison, and report. Whole-codebase work may require more analysis, so the skills avoid reading every file into context.
+```text
+Use pragmatic-code to refactor the order processing service.
+Keep existing behavior and report quality metrics before and after.
+```
 
-## Agent locations
+### `pragmatic-review`
 
-| Agent | Project skills directory |
+Reviews code or prepares an implementation plan without editing files. It identifies concrete risks, assesses quality indicators, and provides up to three prioritized tuning suggestions.
+
+Example prompt:
+
+```text
+Use pragmatic-review to assess the authentication module.
+Identify maintainability risks and recommend the three most useful improvements.
+```
+
+## Scope
+
+When a skill starts, it asks which scope to use unless you already specified one:
+
+- **Current changes:** inspect the code involved in the current task.
+- **Whole codebase:** assess the repository in stages, focusing on significant hotspots.
+
+Example prompts with explicit scope:
+
+```text
+Use pragmatic-review on the whole codebase.
+Use pragmatic-code for current changes in the payment handler.
+```
+
+For whole-codebase implementation, the agent confirms the intended improvements before editing.
+
+## Quality indicators
+
+Both skills consider cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface. They use existing project tooling when available; otherwise, they describe findings qualitatively rather than inventing numeric scores.
+
+Additional checks such as test coverage, static analysis, and performance profiling are used when relevant. Reports focus on meaningful findings instead of exhaustive metrics.
+
+## Supported agents
+
+| Agent | Project installation directory |
 | --- | --- |
 | Claude Code | `.claude/skills` |
 | Codex | `.agents/skills` |
 | Antigravity | `.agents/skills` |
 
-Restart the agent session after installation if needed. See [compatibility](docs/compatibility.md).
+See [compatibility](docs/compatibility.md) for global installation paths.
 
-## Development
-
-The npm package has not been published yet. From a checkout, use `node bin/pragmatic-agent.mjs --agent codex`.
-
-```sh
-npm test
-npm run validate
-npm pack --dry-run
-```
-
-Changes go to `dev`; the maintainer merges releases into `main` through a manual pull request.
-
-[Contributing](CONTRIBUTING.md) · [License](LICENSE)
+[License](LICENSE)
