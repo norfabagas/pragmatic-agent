@@ -27,20 +27,20 @@ Wait for the answer. Do not silently default to either option. If the user alrea
 4. Trace concrete hotspots: nested control flow, hidden state, circular dependencies, scattered business rules, or repeated expensive operations. High metric values alone are not defects.
 5. Suggest only changes supported by evidence. For planning, give a small implementation sequence and verification criteria; for review, give findings ordered by risk.
 
-## Improvement Potential Chart (required)
+## Improvement Potential chart
 
 End every completed review with exactly **one** compact chart titled **Improvement Potential**. The chart illustrates what the recommended changes could improve, not what has already improved.
 
-1. Use a **horizontal grouped bar chart** with **Current** and **Potential after changes** series. Include at most five relevant metrics from cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface. Prefer metrics with a meaningful numeric baseline and a defensible projected value.
-2. Derive **Current** from actual scoped measurements. Derive **Potential** only from a concrete proposed change and an explainable calculation or existing analyzer result. Label all potential values as **estimates, not measured outcomes**. Never invent percentages, scores, or projections.
-3. Plot only comparable measurements with the same unit, scope, and direction. If different units are needed, use small multiples within the **single chart** rather than one shared numeric axis. Never normalize disparate metrics to arbitrary 0–100 scores. For a metric where lower is not inherently better, explain the desired direction or omit it.
-4. If only one defensible metric pair exists, show just that pair. If no numeric projection can be defended, still render **one qualitative improvement chart**: up to three labeled opportunities with categorical **Expected impact: Low / Medium / High**, justified by findings. Clearly mark it **qualitative**, without numeric bars, fake scales, or fabricated values.
-5. Use chart or diagram capabilities already supported by the agent's output environment (for example, Mermaid xychart for comparable numeric data, or a concise text-based bar chart). Do not install packages, generate image files, or run new tooling solely for visualization. If graphical rendering is unavailable, use a single aligned monospace chart as the fallback. The chart must be visible in the final response, not merely promised or described.
-6. Directly below the chart, state the measurement scope, source/tool, assumptions behind estimates, and any unavailable baselines in at most two sentences. Do not repeat the same chart as a second table.
+1. For defensible numeric projections, show **Current** and **Potential after changes** as horizontal grouped bars for up to five relevant metrics.
+2. Measure **Current** in the selected scope. Estimate **Potential** only when a specific proposed change supports a reproducible calculation. Label projections as estimates, never measured outcomes.
+3. Compare like-for-like units and scope. For different units, use separate axes/panels within the one chart or omit the extra metric. Never use arbitrary normalized scores.
+4. If no numeric projection is defensible, show one **qualitative** chart listing up to three evidence-backed opportunities and expected impact (Low / Medium / High). Do not turn these categories into numeric scores.
+5. Use the agent's existing chart support; otherwise use one aligned text chart. Do not install dependencies or generate files solely for this chart.
+6. Below the chart, briefly identify scope, measurement source, projection assumptions, and missing data. Do not duplicate it in another table.
 
 ## Output
 
-Give a concise **Metric | Current | Evidence** summary for relevant indicators, followed by at most **three** highest-value tuning suggestions with location, proposed change, expected benefit, and risk. If nothing warrants tuning, say so. State which checks actually ran. Finish with the required Improvement Potential chart and its brief evidence note.
+Give a concise **Metric | Current | Evidence** summary for relevant indicators, followed by at most **three** highest-value tuning suggestions with location, proposed change, expected benefit, and risk. If nothing warrants tuning, say so. State which checks actually ran. Finish with the Improvement Potential chart and its evidence note.
 
 ## Optional checks and token budget
 

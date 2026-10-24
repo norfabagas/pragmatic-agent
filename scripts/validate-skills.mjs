@@ -1,21 +1,44 @@
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const skillsDir = join(root, 'skills');
-const rules = readFileSync(join(root, 'principles/core-rules.md'), 'utf8');
-const ids = [...rules.matchAll(/^\| (PA-\d{2}) \|/gm)].map(m => m[1]);
+const skillNames = ['pragmatic-code', 'pragmatic-review'];
 const errors = [];
-if (ids.length !== 20 || new Set(ids).size !== 20) errors.push('Expected 20 unique PA rules.');
-const dirs = readdirSync(skillsDir, { withFileTypes: true }).filter(d => d.isDirectory());
-for (const dir of dirs) {
-  const path = join(skillsDir, dir.name, 'SKILL.md');
-  if (!existsSync(path)) { errors.push('Missing ' + path); continue; }
-  const body = readFileSync(path, 'utf8');
-  const fm = body.match(/^---\n([\s\S]*?)\n---\n/);
-  if (!fm || !fm[1].split('\n').includes('name: ' + dir.name) || !fm[1].split('\n').some(line => line.startsWith('description: '))) errors.push('Invalid skill metadata: ' + dir.name);
+
+const rules = readFileSync(join(root, 'principles/core-rules.md'), 'utf8');
+const ruleIds = [...rules.matchAll(/^\| (PA-\d{2}) \|/gm)].map(match => match[1]);
+if (ruleIds.length !== 20 || new Set(ruleIds).size !== 20) {
+  errors.push('Expected 20 unique PA rules.');
 }
-if (dirs.length !== 2 || !['pragmatic-code', 'pragmatic-review'].every(name => dirs.some(dir => dir.name === name))) errors.push('Expected pragmatic-code and pragmatic-review only.');
-if (errors.length) { errors.forEach(e => console.error(e)); process.exitCode = 1; }
-else console.log('Validated ' + dirs.length + ' skills and ' + ids.length + ' rules.');
+
+const installedNames = readdirSync(join(root, 'skills'), { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => entry.name);
+if (installedNames.length !== skillNames.length ||
+    !skillNames.every(name => installedNames.includes(name))) {
+  errors.push('Expected pragmatic-code and pragmatic-review only.');
+}
+
+for (const name of skillNames) {
+  let body;
+  try {
+    body = readFileSync(join(root, 'skills', name, 'SKILL.md'), 'utf8');
+  } catch {
+    errors.push('Missing SKILL.md for ' + name);
+    continue;
+  }
+
+  const metadata = body.match(/^---\n([\s\S]*?)\n---\n/)?.[1]?.split('\n') ?? [];
+  if (!metadata.includes('name: ' + name) ||
+      !metadata.some(line => line.startsWith('description: ') && line.length > 13)) {
+    errors.push('Invalid skill metadata: ' + name);
+  }
+}
+
+if (errors.length) {
+  for (const error of errors) console.error(error);
+  process.exitCode = 1;
+} else {
+  console.log('Validated ' + skillNames.length + ' skills and ' + ruleIds.length + ' rules.');
+}
