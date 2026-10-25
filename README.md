@@ -41,7 +41,7 @@ Keep existing behavior and report quality metrics before and after.
 
 ### `pragmatic-review`
 
-Reviews code or prepares an implementation plan without editing files. It identifies concrete risks, assesses quality indicators, and provides up to three prioritized tuning suggestions.
+Reviews code or prepares an implementation plan without editing files. It identifies concrete risks, assesses quality indicators, and provides up to three prioritized tuning suggestions. Every completed review ends with one **Improvement Potential** chart comparing measured current metrics with defensible projected metrics, or a clearly labeled qualitative opportunity chart when numeric estimates are not supported.
 
 Example prompt:
 
@@ -71,6 +71,12 @@ For whole-codebase implementation, the agent confirms the intended improvements 
 Both skills consider cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface. They use existing project tooling when available; otherwise, they describe findings qualitatively rather than inventing numeric scores.
 
 Additional checks such as test coverage, static analysis, and performance profiling are used when relevant. Reports focus on meaningful findings instead of exhaustive metrics.
+
+### Example review visualization
+
+A review with measured and defensible projected values shows one horizontal chart comparing **Current** with **Potential after changes**. Potential values are estimates, not verified improvements. Different units must not share a misleading scale.
+
+When numeric projections are not justified, the agent uses a qualitative chart of up to three evidence-backed improvement opportunities (Low / Medium / High expected impact) rather than fabricated numbers. The chart is rendered using the agent's existing capabilities, with a text fallback and no added dependencies.
 
 ## Supported agents
 
