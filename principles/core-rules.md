@@ -20,7 +20,7 @@ These identifiers are canonical. Skills should refer to them rather than duplica
 | PA-14 | Keep changes focused | Avoid unrelated refactoring and formatting. |
 | PA-15 | Optimize after evidence | Optimize for measured bottlenecks or documented constraints, not guesses. |
 | PA-16 | Verify observable behavior | Check expected outcomes and meaningful edge cases rather than implementation details alone. |
-| PA-17 | Preserve compatibility | Protect public contracts and existing behavior unless changes are requested. |
+| PA-17 | Preserve compatibility | Protect public contracts, existing data and read/write flows, and behavior unless changes are requested. |
 | PA-18 | Never fabricate verification | Do not claim commands, tests, or reviews ran unless they actually did. |
 | PA-19 | Review security boundaries | Check input, permissions, secrets, and sensitive data appropriate to the change. |
 | PA-20 | Report limitations precisely | Explain completed work, verification performed, and unresolved issues. |

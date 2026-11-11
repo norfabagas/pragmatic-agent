@@ -2,6 +2,7 @@
 
 - [ ] The requested behavior or review scope is addressed.
 - [ ] Relevant correctness, security, error handling, and compatibility risks were considered.
+- [ ] When persistence is involved, existing records and read/write flows are protected; risky data operations require explicit approval.
 - [ ] Available quality indicators were checked in the affected scope without unnecessary scans or new tooling.
 - [ ] pragmatic-code reports comparable before/after results or explains missing baselines.
 - [ ] pragmatic-review offers only evidence-based tuning suggestions, prioritized by impact.

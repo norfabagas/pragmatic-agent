@@ -62,6 +62,12 @@ Use pragmatic-code for current changes in the payment handler.
 
 For whole-codebase implementation, the agent confirms the intended improvements before editing.
 
+## Data flow and storage
+
+When changes involve stored data, both skills check the relevant read/write paths, database queries, migrations, transactions, caches, and file, object, or local storage. Existing records and data flow are compatibility constraints.
+
+`pragmatic-code` favors backward-compatible migrations and checks old and new data paths after changes. Destructive schema changes and production data operations require explicit approval. `pragmatic-review` remains read-only and may include measured query or storage metrics in its chart.
+
 ## Quality indicators
 
 Both skills assess cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface where relevant. They reuse existing tools and describe findings qualitatively when measurements are unavailable. Coverage, static analysis, and profiling are optional.
