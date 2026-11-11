@@ -13,7 +13,7 @@ Commit changes to `dev`. The maintainer opens and merges release pull requests f
 3. Add a test if the change affects the installer or validation script.
 4. Run `npm test` and `npm run validate`. Report any checks you could not run.
 
-Prefer specific language and testable claims. Do not require an architecture, pattern, or dependency without an actual need.
+Use specific language and testable claims. Remove filler without weakening technical qualifications. Do not require an architecture, pattern, or dependency without an actual need.
 
 ## Release checks
 

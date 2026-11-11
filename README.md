@@ -1,18 +1,16 @@
 # Pragmatic Agent
 
-Coding skills for your AI agent.
-
-Pragmatic Agent provides two skills for Claude Code, Codex, and Antigravity. They help agents implement and review code with attention to maintainability, correctness, and measurable code quality.
+Two coding skills for Claude Code, Codex, and Antigravity: `pragmatic-code` edits code; `pragmatic-review` assesses it without edits.
 
 ## Installation
 
-Run from your project directory:
+After the package is published to npm, run from your project directory:
 
 ```sh
 npx pragmatic-agent
 ```
 
-Choose your coding agent when prompted, or specify it directly:
+To skip agent selection:
 
 ```sh
 npx pragmatic-agent --agent claude
@@ -22,15 +20,13 @@ npx pragmatic-agent --agent antigravity
 
 Use `--dir PATH` to target another project, `--scope global` for a user-level installation, or `--force` to replace existing skill files.
 
-The installer copies instructions into the agent's skills directory. It does not run code analysis by itself.
+The installer copies the skills. Analysis runs only when you invoke a skill in your agent.
 
 ## Usage
 
-Invoke a skill in your coding agent's conversation.
-
 ### `pragmatic-code`
 
-Implements features, fixes bugs, and refactors code. It inspects the selected scope, records relevant quality indicators before editing, implements the change, and compares results afterward. It also reports which tests actually ran.
+Implements changes, compares available quality metrics before and after, and reports tests actually run.
 
 Example prompt:
 
@@ -41,7 +37,7 @@ Keep existing behavior and report quality metrics before and after.
 
 ### `pragmatic-review`
 
-Reviews code or prepares an implementation plan without editing files. It identifies concrete risks, assesses quality indicators, and provides up to three prioritized tuning suggestions. Every completed review ends with one **Improvement Potential** chart comparing measured current metrics with defensible projected metrics, or a clearly labeled qualitative opportunity chart when numeric estimates are not supported.
+Reviews code or plans changes without editing files. Reports concrete risks, up to three recommendations, and one **Improvement Potential** chart.
 
 Example prompt:
 
@@ -52,7 +48,7 @@ Identify maintainability risks and recommend the three most useful improvements.
 
 ## Scope
 
-When a skill starts, it asks which scope to use unless you already specified one:
+If the request does not specify a scope, the agent asks you to choose:
 
 - **Current changes:** inspect the code involved in the current task.
 - **Whole codebase:** assess the repository in stages, focusing on significant hotspots.
@@ -68,15 +64,11 @@ For whole-codebase implementation, the agent confirms the intended improvements 
 
 ## Quality indicators
 
-Both skills consider cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface. They use existing project tooling when available; otherwise, they describe findings qualitatively rather than inventing numeric scores.
+Both skills assess cognitive complexity, cyclomatic complexity, duplication, coupling, and change surface where relevant. They reuse existing tools and describe findings qualitatively when measurements are unavailable. Coverage, static analysis, and profiling are optional.
 
-Additional checks such as test coverage, static analysis, and performance profiling are used when relevant. Reports focus on meaningful findings instead of exhaustive metrics.
+### Review chart
 
-### Example review visualization
-
-A review with measured and defensible projected values shows one horizontal chart comparing **Current** with **Potential after changes**. Potential values are estimates, not verified improvements. Different units must not share a misleading scale.
-
-When numeric projections are not justified, the agent uses a qualitative chart of up to three evidence-backed improvement opportunities (Low / Medium / High expected impact) rather than fabricated numbers. The chart is rendered using the agent's existing capabilities, with a text fallback and no added dependencies.
+**Improvement Potential** compares measured values with justified estimates. If numeric projections are unavailable, it lists evidence-backed opportunities with qualitative impact (Low / Medium / High). Estimates are not verified improvements. No chart dependency is required.
 
 ## Supported agents
 

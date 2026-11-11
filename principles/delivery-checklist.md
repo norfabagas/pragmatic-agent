@@ -7,6 +7,6 @@
 - [ ] pragmatic-review offers only evidence-based tuning suggestions, prioritized by impact.
 - [ ] pragmatic-review ends with one Improvement Potential chart, distinguishing measured baselines, estimates, and qualitative impact.
 - [ ] Tests actually run are distinguished from unverified assumptions.
-- [ ] Output stays concise; missing numeric metrics are not fabricated.
+- [ ] Output is specific, without stock praise or repeated conclusions; missing numeric metrics are not fabricated.
 
 This checklist is not proof of verification.
